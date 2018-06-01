@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/yourBands"
+        android:enabled="true"
+        android:icon="@mipmap/icon_my_timeline"
+        android:title="Your Bands"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/bands"
+        android:enabled="true"
+        android:icon="@mipmap/icon_bands"
+        android:title="Bands"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Map"
+        android:enabled="true"
+        android:icon="@mipmap/icon_map"
+        android:title="Map"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Calender"
+        android:enabled="true"
+        android:icon="@mipmap/icon_calender"
+        android:title="Calender"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Camera"
+        android:enabled="true"
+        android:icon="@mipmap/icon_camera"
+        android:title="Camera"
+        app:showAsAction="ifRoom" />
+</menu>

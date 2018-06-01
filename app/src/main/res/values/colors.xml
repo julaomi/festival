@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorFlieder">#C6BAF1</color>
+    <color name="colorBlue">#2E25BD</color>
+    <color name="colorDunklBlau">#232267</color>
+    <color name="colorHellesFlieder">#E7E4F3</color>
+    <color name="colorPinkViolett">#B86AE0</color>
+    <color name="colorBlauSchwarz">#0A0A10</color>
+    <color name="colorTürkis">#1A9DBB</color>
+    <color name="colorGrey">#959EA8</color>
+    <color name="colorGreenMatt">#9BCE8B</color>
+    <color name="colorGreenBlack">#2C3A4E</color>
+    <color name="colorGiftGreen">#A3FB66</color>
+    <color name="colorGreenGrey">#54958A</color>
+    <color name="colorGreen">#37DB67</color>
+    <color name="white">#ffff</color>
+    <color name="backgroundGreen">#348e88</color>
+    <color name="backgroundViolet">#734C80</color>
+    <color name="backgroundDialog1">#033e3d</color>
+    <color name="backgroundDialog2">#093748</color>
+</resources>
