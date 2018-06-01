@@ -11,14 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences mPrefs;
     int festivalPosition;
+    String[] listOfFiles;
+    Spinner festivalSpinner;
 
 
     @Override
@@ -71,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
         firstStartDialog.setView(dialogViewFirstStart);
 
 
-        Spinner festivalSpinner = findViewById(R.id.spinnerFirstStart);
+        festivalSpinner = findViewById(R.id.spinnerFirstStart);
+        populateFileSpinner(dialogViewFirstStart, festivalSpinner);
+
         festivalPosition = festivalSpinner.getSelectedItemPosition();
+
 
         firstStartDialog.setPositiveButton("GO!", new DialogInterface.OnClickListener() {
             @Override
@@ -83,6 +92,45 @@ public class MainActivity extends AppCompatActivity {
         firstStartDialog.show();
 
 
+    }
+    private void populateFileSpinner(View view, Spinner spinner) {
+        // List of Existing Files for the Spinner with Adapter
+
+        try {
+            listOfFiles = this.getAssets().list("festivals");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            listOfFiles = new String[0];
+        }
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getApplicationContext(),
+                android.R.layout.simple_spinner_item, listOfFiles);
+
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+                                              @Override
+                                              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //wenn etwas ausgewählt wurde
+                                                  String fileName = adapter.getItem(position).toString(); //declaration with the
+                                                  FestivalManager.getInstance().setFileName(fileName);
+                                                  FestivalManager.getInstance().setListFrom(position);
+                                                  // position of Spinner
+                                                  FestivalManager.getInstance();
+                                                  new FestivalJsonReader().informationsForReader
+                                                          (fileName);
+                                              }
+
+
+                                              @Override
+                                              public void onNothingSelected(AdapterView<?> parent) { //wenn nichts ausgewählt wurde
+                                                firstStartDialog();
+                                              }
+                                          }
+        );
     }
 
 

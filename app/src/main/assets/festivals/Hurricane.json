@@ -1,0 +1,147 @@
+{
+    "name": "Hurricane",
+    "location": "Scheeßel",
+    "date": "21.06. - 24.06.2018",
+    "bands": [
+        {
+            "bandname" : "MARTERIA",
+            "stage" : "Blue Stage",
+            "date" : "22.06.2018",
+            "time" : "00:45"
+        },
+        {
+            
+	        "bandname" : "#HURRICANESWIMTEAM",
+            "stage" : "Green Stage",
+            "date" : "22.06.2018",
+            "time" : "14: 25"    
+        },
+        {
+            "bandname" : "THE OFFSPRING",
+            "stage" : "Green Stage",
+            "date" : "22.06.2018",
+            "time" : "19: 45"    
+        },
+        {
+            "bandname" : "DONOTS",
+            "stage" : "Green Stage",
+            "date" :  "22.06.2018",
+            "time" :  "17: 15"    
+        },
+        {
+            "bandname" : "BILLY TALENT",
+            "stage" : "Green Stage",
+            "date" : "22.06.2018",
+            "time" : "23: 15"    
+        },
+        {
+            "bandname" : "TWO DOOR CINEMA CLUB",
+            "stage" : "Blue Stage",
+            "date" : "22.06.2018",
+            "time" : "22:30"    
+        },
+        {
+            "bandname" : "EMIL BULLS",
+            "stage" : "Red Stage",
+            "date" : "22.06.2018",
+            "time" : "19:45"    
+        },
+        {
+            "bandname" : "BOOKA SHADE",
+            "stage" : "White Stage",
+            "date" : "22.06.2018",
+            "time" : "00:30"    
+        },
+        {
+            "bandname" : "MADSEN",
+            "stage" : "Green Stage",
+            "date" : "23.06.2018",
+            "time" : "18:00"    
+        },
+        {
+            "bandname" : "THE KOOKS",
+            "stage" : "Green Stage",
+            "date" : "23.06.2018",
+            "time" : "19:30"    
+        },
+        {
+            "bandname" : "BIFFY CLYRO",
+            "stage" : "Green Stage",
+            "date" : "23.06.2018",
+            "time" : "21:15"    
+        },
+
+        {
+            "bandname" : "THE PRODIGY",
+            "stage" : "Green Stage",
+            "date" : "23.06.2018",
+            "time" : "23:14"    
+        },
+        {
+            "bandname" : "SXTN",
+            "stage" : "Blue Stage",
+            "date"  :"23.06.2018",
+            "time" : "16:00"    
+        },
+        {
+            "bandname" : "DENDEMANN",
+            "stage" : "Blue Stage",
+            "date" : "23.06.2018",
+            "time"  : "20:45"    
+        },
+        {
+            "bandname" : "BEGINNER",
+            "stage" : "Blue Stage",
+            "date" : "23.06.2018",
+            "time" : "22:30"    
+        },
+        {
+            "bandname" : "JUSTICE",
+            "stage" : "Blue Stage",
+            "date" : "23.06.2018",
+            "time" : "00:40"    
+        },
+        {
+            "bandname" : "BONAPARTE",
+            "stage"  : "Red Stage",
+            "date" : "23.06.2018",
+            "time" : "21:45"    
+        },
+        {
+            "bandname" : "MIKE PERRY",
+            "stage" : "White Stage",
+             "date" : "23.06.2018",
+            "time" : "23:45"    
+        },
+        {
+            "bandname" : "FRANZ FERDINAND",
+            "stage" : "Green Stage",
+            "date" : "24.06.2018",
+            "time" : "18:15"    
+        },
+        {
+            "bandname" : "KRAFTKLUB",
+            "stage" : "Green Stage",
+            "date" : "24.06.2018",
+            "time" : "20:15"    
+        },
+        {
+            "bandname":  "ARCTIC MONKEYS",
+            "stage" : "Green Stage",
+            "date" : "24.06.2018",
+            "time" : "22:30"    
+        },
+        {
+            "bandname" : "ARCADE FIRE",
+            "stage" : "Blue Stage",
+            "date" : "24.06.2018",
+            "time" : "21:15"    
+        },
+        {
+            "bandname" : "MEUTE",
+            "stage" : "White Stage",
+            "date" : "24.06.2018",
+            "time" : "17:30"    
+        }
+    ]
+}

@@ -16,7 +16,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
+        android:gravity="center_vertical|center"
         android:text="Herzlich Wolkommen bei der Festival-App! Bitte wähle ein Festival aus zu dem du fährst!"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,18 +35,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFirstStartDialog" />
-
-    <Button
-        android:id="@+id/button_first_dialog_go"
-        android:layout_width="41dp"
-        android:layout_height="39dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:background="@color/backgroundGreen"
-        android:text="Go!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerFirstStart" />
 
 </android.support.constraint.ConstraintLayout>
