@@ -3,6 +3,12 @@ package com.example.tadje.festival_app.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Created by tadje on 31.05.2018.
@@ -11,22 +17,34 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "festival")
 public class Festival {
 
-    @PrimaryKey (autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo (name = "festivalName")
+    @SerializedName("name")
+    @Expose
+    @ColumnInfo(name = "festivalName")
     private String festivalName;
 
-    @ColumnInfo (name = "festivalOrt")
-    private String festivalOrt;
+    @SerializedName("location")
+    @Expose
+    @ColumnInfo(name = "location")
+    private String festivalLocation;
 
-    @ColumnInfo (name = "festivalDatum")
-    private String festivalDatum;
+    @SerializedName("festivaldate")
+    @Expose
+    @ColumnInfo(name = "festivalDate")
+    private String festivalDate;
 
-    public Festival( String festivalName, String festivalOrt, String festivalDatum) {
-       this.festivalName = festivalName;
-       this.festivalOrt = festivalOrt;
-       this.festivalDatum = festivalDatum;
+    @SerializedName("bands")
+    @Expose
+    @TypeConverters({MyTypeConverter.class})
+    private List<Band> bands;
+
+
+    public Festival(String festivalName, String festivalLocation, String festivalDate) {
+        this.festivalName = festivalName;
+        this.festivalLocation = festivalLocation;
+        this.festivalDate = festivalDate;
     }
 
 
@@ -46,19 +64,27 @@ public class Festival {
         this.festivalName = festivalName;
     }
 
-    public String getFestivalOrt() {
-        return festivalOrt;
+    public String getFestivalLocation() {
+        return festivalLocation;
     }
 
-    public void setFestivalOrt(String festivalOrt) {
-        this.festivalOrt = festivalOrt;
+    public void setFestivalLocation(String festivalLocation) {
+        this.festivalLocation = festivalLocation;
     }
 
-    public String getFestivalDatum() {
-        return festivalDatum;
+    public String getFestivalDate() {
+        return festivalDate;
     }
 
-    public void setFestivalDatum(String festivalDatum) {
-        this.festivalDatum = festivalDatum;
+    public void setFestivalDate(String festivalDate) {
+        this.festivalDate = festivalDate;
+    }
+
+    public List<Band> getBands() {
+        return bands;
+    }
+
+    public void setBands(List<Band> bands) {
+        this.bands = bands;
     }
 }

@@ -1,18 +1,14 @@
 package com.example.tadje.festival_app;
 
-import android.os.Environment;
-import android.util.JsonReader;
+import android.content.Context;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
-import com.example.tadje.festival_app.model.Bands;
 import com.example.tadje.festival_app.model.Festival;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -22,118 +18,55 @@ import java.util.ArrayList;
 public class FestivalJsonReader {
     private ArrayList<Festival> festivalList = new ArrayList<>();
 
-    public ArrayList<Festival> informationsForReader(String fileName) {
+
+    public ArrayList<Festival> informationsForReader(String fileName, Context context) {
         FestivalManager.getInstance().getFileName();
         festivalList.clear();
+        //    DataInputStream dataInputStream = null;
 
-        String stream = Environment.getExternalStorageDirectory() + File.separator + fileName;
-        DataInputStream dataInputStream = null;
+
+//        String stream = Environment.getExternalStorageDirectory() + File.separator +
+//                "festivals/" + fileName;
+
+//        try {
+//            InputStream stream = context.getAssets().open(fileName);
+//            dataInputStream = new DataInputStream(stream);
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//
+//
+//        }
+
+      String json = null;
         try {
-            dataInputStream = new DataInputStream(new FileInputStream(stream));
+            InputStream inputStream = context.getAssets().open(fileName);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        JsonReader reader = new JsonReader(new InputStreamReader(dataInputStream));
-
-        festivalList = readFestivalArray(reader);
-        try {
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return festivalList;
-    }
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-    private ArrayList<Festival> readFestivalArray(JsonReader reader) {
-        ArrayList<Festival> festivalList = new ArrayList<>();
-
-        try {
-            reader.beginArray();
-            while (reader.hasNext()) {
-                Festival festival = readFestival(reader);
-                festivalList.add(festival);
-            }
-            reader.endArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return festivalList;
-    }
-
-    private Festival readFestival(JsonReader reader) {
-        String name = null;
-        String festivalName = null;
-        String festivalLocation = null;
-        String festivalDate = null;
-        String bandName = null;
-        String stage = null;
-        String date = null;
-        String time = null;
-
-        try {
-            reader.beginObject();
-            name = reader.nextName();
-
-
-            if (name.equals("name")) {
-                festivalName = reader.nextString();
-            }
-            name = reader.nextName();
-            if (name.equals("location")) {
-                festivalLocation = reader.nextString();
-            }
-            name = reader.nextName();
-            if (name.equals("date")) {
-                festivalDate = reader.nextString();
-            }
-            name = reader.nextName();
-            if (name.equals("bands"))
-                reader.beginArray();
-            reader.beginObject();
-            if (name.equals("bandname")) {
-                bandName = reader.nextString();
-            }
-            name = reader.nextName();
-            if(name.equals("stage")){
-                stage = reader.nextString();
-            }
-            name = reader.nextName();
-            if(name.equals("date")){
-                date = reader.nextString();
-            }
-            name = reader.nextName();
-            if(name.equals("time")){
-                time = reader.nextName();
-            }
-            reader.endObject();
-            reader.endArray();
-            reader.endObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Festival festival = new Festival(festivalName, festivalLocation, festivalDate);
+        Festival festival = gson.fromJson(json, Festival.class);
         addFestival(festival);
 
-        Bands bands = new Bands(bandName, stage, date, time);
-        addBands(bands);
-
-        return festival;
 
 
-    }
+        return festivalList;
 
-    private Bands addBands(Bands bands) {
-        AppDatabase.getInstance().bandsDao().insertAll(bands);
-        return bands;
     }
 
     private Festival addFestival(Festival festival) {
-        AppDatabase.getInstance().festivalDao().insertAll(festival);
+
+        AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+        AppDatabase.getInstance().festivalDao().insert(festival);
         return festival;
     }
 

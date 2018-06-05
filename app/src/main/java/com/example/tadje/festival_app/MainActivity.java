@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.tadje.festival_app.Persistence.AppDatabase;
+
 import java.io.IOException;
 
 
@@ -35,12 +37,18 @@ public class MainActivity extends AppCompatActivity {
         Context mContext = this.getApplicationContext();
         mPrefs = mContext.getSharedPreferences("myAppPrefs", 0);
 
-        if (this.getFirstRun()) {
-            this.setRunned();
-            firstStartDialog();
-        } else {
-            fillTextViewWithFestival();
-        }
+        Context context = this;
+
+        //Initialization of the database otherwise the app crashes
+        AppDatabase.getInstance(context);
+
+//        if (this.getFirstRun()) {
+//            this.setRunned();
+//            firstStartDialog();
+//        } else {
+//            fillTextViewWithFestival();
+//        }
+     firstStartDialog();
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -77,11 +85,9 @@ public class MainActivity extends AppCompatActivity {
         firstStartDialog.setView(dialogViewFirstStart);
 
 
-        festivalSpinner = findViewById(R.id.spinnerFirstStart);
+        festivalSpinner = dialogViewFirstStart.findViewById(R.id.spinnerFirstStart);
+
         populateFileSpinner(dialogViewFirstStart, festivalSpinner);
-
-        festivalPosition = festivalSpinner.getSelectedItemPosition();
-
 
         firstStartDialog.setPositiveButton("GO!", new DialogInterface.OnClickListener() {
             @Override
@@ -107,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getApplicationContext(),
                 android.R.layout.simple_spinner_item, listOfFiles);
 
+        final Context context = this;
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -121,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                                   // position of Spinner
                                                   FestivalManager.getInstance();
                                                   new FestivalJsonReader().informationsForReader
-                                                          (fileName);
+                                                          (fileName, context);
                                               }
 
 

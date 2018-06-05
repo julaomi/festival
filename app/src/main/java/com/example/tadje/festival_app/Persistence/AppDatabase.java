@@ -3,15 +3,18 @@ package com.example.tadje.festival_app.Persistence;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import com.example.tadje.festival_app.model.Bands;
+import com.example.tadje.festival_app.model.Band;
 import com.example.tadje.festival_app.model.Festival;
+import com.example.tadje.festival_app.model.MyTypeConverter;
 
 /**
  * Created by tadje on 31.05.2018.
  */
-@Database(entities = {Festival.class, Bands.class}, version = 1)
+@Database(entities = {Festival.class, Band.class}, version = 1)
+@TypeConverters({MyTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase Instance = null;
@@ -35,7 +38,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract FestivalDao festivalDao();
-    public abstract BandsDao bandsDao();
+    public abstract BandDao bandDao();
 
 
 }
