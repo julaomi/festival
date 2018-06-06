@@ -27,7 +27,7 @@ public class MyTypeConverter {
         List<Band> bands = null;
         idList = ids.split("/");
 
-        for (int i = 0; i <= idList.length; i++) {
+        for (int i = 0; i <= (idList.length -1 ); i++) {
             int id = Integer.parseInt(idList[i]);
             bands = AppDatabase.getInstance().bandDao().getAllFromID(id);
         }

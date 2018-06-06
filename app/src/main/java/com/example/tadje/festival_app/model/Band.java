@@ -17,11 +17,6 @@ public class Band {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @SerializedName("name")
-    @Expose
-    @ColumnInfo(name = "festivalName")
-    private String festivalName;
-
     @SerializedName("bandname")
     @Expose
     @ColumnInfo(name = "bandName")
@@ -43,12 +38,11 @@ public class Band {
     private String time;
 
 
-    public Band(String bandName,  String stage, String date, String time, String festivalName) {
+    public Band(String bandName,  String stage, String date, String time) {
         this.bandName = bandName;
         this.stage = stage;
         this.date = date;
         this.time = time;
-        this.festivalName = festivalName;
     }
 
     public String getBandName() {
@@ -91,11 +85,4 @@ public class Band {
         this.id = id;
     }
 
-    public String getFestivalName() {
-        return festivalName;
-    }
-
-    public void setFestivalName(String festivalName) {
-        this.festivalName = festivalName;
-    }
 }

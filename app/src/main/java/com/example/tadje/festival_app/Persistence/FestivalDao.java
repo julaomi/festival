@@ -23,10 +23,25 @@ public interface FestivalDao {
     @Query("SELECT * FROM festival WHERE id IN (:Ids)")
     List<Festival> loadAllByIds(int[] Ids);
 
+    @Query("SELECT festivalName FROM festival WHERE id IN (:id)")
+    String loadFestivalNameById(int id);
+
+    @Query("SELECT location FROM festival WHERE id IN (:id)")
+    String loadFestivalLocationByID(int id);
+
+
+    @Query("SELECT festivalfrom FROM festival WHERE id IN (:id)")
+    String loadFestivalFromByID(int id);
+
+    @Query("SELECT festivalto FROM festival WHERE id IN (:id)")
+    String loadFestivalTOByID(int id);
+
     @Insert
     void insert(Festival festival);
 
     @Insert
     void insertAll(Festival... festivals);
 
+    @Query("SELECT * FROM festival WHERE id IN (:id)")
+    List<Festival> loadAllById(int id);
 }

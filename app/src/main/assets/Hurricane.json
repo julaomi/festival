@@ -1,7 +1,8 @@
 {
     "name": "Hurricane",
     "location": "Scheeßel",
-    "festivaldate": "21.06. - 24.06.2018",
+    "festivalfrom": "21.06.2018",
+    "festivalto": "24.06.2018",
     "bands": [
         {
             "bandname" : "MARTERIA",

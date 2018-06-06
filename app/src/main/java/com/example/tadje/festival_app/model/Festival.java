@@ -30,10 +30,15 @@ public class Festival {
     @ColumnInfo(name = "location")
     private String festivalLocation;
 
-    @SerializedName("festivaldate")
+    @SerializedName("festivalfrom")
     @Expose
-    @ColumnInfo(name = "festivalDate")
-    private String festivalDate;
+    @ColumnInfo(name = "festivalfrom")
+    private String festivalfrom;
+
+    @SerializedName("festivalto")
+    @Expose
+    @ColumnInfo(name = "festivalto")
+    private String festivalto;
 
     @SerializedName("bands")
     @Expose
@@ -41,10 +46,13 @@ public class Festival {
     private List<Band> bands;
 
 
-    public Festival(String festivalName, String festivalLocation, String festivalDate) {
+    public Festival(String festivalName, String festivalLocation, String festivalfrom, String
+            festivalto) {
         this.festivalName = festivalName;
         this.festivalLocation = festivalLocation;
-        this.festivalDate = festivalDate;
+        this.festivalfrom = festivalfrom;
+        this.festivalto = festivalto;
+
     }
 
 
@@ -72,13 +80,6 @@ public class Festival {
         this.festivalLocation = festivalLocation;
     }
 
-    public String getFestivalDate() {
-        return festivalDate;
-    }
-
-    public void setFestivalDate(String festivalDate) {
-        this.festivalDate = festivalDate;
-    }
 
     public List<Band> getBands() {
         return bands;
@@ -86,5 +87,21 @@ public class Festival {
 
     public void setBands(List<Band> bands) {
         this.bands = bands;
+    }
+
+    public String getFestivalfrom() {
+        return festivalfrom;
+    }
+
+    public void setFestivalfrom(String festivalfrom) {
+        this.festivalfrom = festivalfrom;
+    }
+
+    public String getFestivalto() {
+        return festivalto;
+    }
+
+    public void setFestivalto(String festivalto) {
+        this.festivalto = festivalto;
     }
 }

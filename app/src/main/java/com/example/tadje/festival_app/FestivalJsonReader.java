@@ -22,22 +22,6 @@ public class FestivalJsonReader {
     public ArrayList<Festival> informationsForReader(String fileName, Context context) {
         FestivalManager.getInstance().getFileName();
         festivalList.clear();
-        //    DataInputStream dataInputStream = null;
-
-
-//        String stream = Environment.getExternalStorageDirectory() + File.separator +
-//                "festivals/" + fileName;
-
-//        try {
-//            InputStream stream = context.getAssets().open(fileName);
-//            dataInputStream = new DataInputStream(stream);
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//
-//
-//        }
 
       String json = null;
         try {
@@ -66,6 +50,7 @@ public class FestivalJsonReader {
     private Festival addFestival(Festival festival) {
 
         AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+        FestivalManager.getInstance().setBandList(festival.getBands());
         AppDatabase.getInstance().festivalDao().insert(festival);
         return festival;
     }

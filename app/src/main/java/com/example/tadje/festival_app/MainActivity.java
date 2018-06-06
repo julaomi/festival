@@ -17,8 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
+import com.example.tadje.festival_app.model.Festival;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = this;
 
+
+
         //Initialization of the database otherwise the app crashes
         AppDatabase.getInstance(context);
+
+
 
 //        if (this.getFirstRun()) {
 //            this.setRunned();
@@ -48,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            fillTextViewWithFestival();
 //        }
-     firstStartDialog();
+        firstStartDialog();
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -76,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private void firstStartDialog() {
 
         AlertDialog.Builder firstStartDialog = new AlertDialog.Builder(this);
@@ -99,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void populateFileSpinner(View view, Spinner spinner) {
         // List of Existing Files for the Spinner with Adapter
 
@@ -134,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                                               @Override
                                               public void onNothingSelected(AdapterView<?> parent) { //wenn nichts ausgewählt wurde
-                                                firstStartDialog();
+                                                  firstStartDialog();
                                               }
                                           }
         );
@@ -155,10 +169,56 @@ public class MainActivity extends AppCompatActivity {
         TextView festivalNameView = findViewById(R.id.textViewFestivalName);
         TextView festivalOrtView = findViewById(R.id.textViewFestivalOrt);
         TextView festivalDatum = findViewById(R.id.textViewFestivalDatum);
+        Date festivalToDate = null;
+        Date festivalFromDate = null;
 
-        festivalNameView.setText("Hurricane");
-        festivalOrtView.setText("Scheeßel");
-        festivalDatum.setText("21.06. \n - \n 24.06.2018");
+        int position = FestivalManager.getInstance().getListFrom() + 1;
+
+        List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao().getAll();
+
+        String festivalName = festivalInformations.get(position).getFestivalName();
+        String festivalLocation = festivalInformations.get(position).getFestivalLocation();
+        String festivalFrom = festivalInformations.get(position).getFestivalfrom();
+        String festivalTo = festivalInformations.get(position).getFestivalto();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        try {
+            festivalFromDate = (Date) simpleDateFormat.parse(festivalFrom);
+            festivalToDate = (Date) simpleDateFormat.parse(festivalTo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        daysBetweenDates(festivalFromDate, festivalToDate);
+
+        festivalNameView.setText(festivalName);
+        festivalOrtView.setText(festivalLocation);
+        festivalDatum.setText(festivalFromDate + " \n - \n " + festivalToDate);
+    }
+
+    private void daysBetweenDates(Date festivalFromDate, Date festivalToDate) {
+
+        Calendar calendarFrom = new GregorianCalendar();
+        calendarFrom.setTime(festivalFromDate);
+
+        Calendar calendarTo = new GregorianCalendar();
+        calendarTo.setTime(festivalToDate);
+
+        int festivalDays = 0;
+        List<Integer> listOfWeekDays = null;
+
+        while (calendarTo.after(calendarFrom)) {
+
+            int dayOfWeek = calendarFrom.get(Calendar.DAY_OF_WEEK);
+            listOfWeekDays.add(dayOfWeek);
+            festivalDays++;
+
+            calendarFrom.add(calendarFrom.DATE, 1);
+        }
+        FestivalManager.getInstance().setFestivalDays(festivalDays);
+        FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);
+
     }
 
 }

@@ -2,7 +2,8 @@
 {
     "name": "Deichbrand",
     "location": "Cuxhaven",
-    "festivaldate": "19.07. - 22.07.2018",
+    "festivalfrom": "19.07.2018",
+    "festivalto": "22.07.2018",
     "bands": [
         {
             "bandname" : "CHEFBOSS",
