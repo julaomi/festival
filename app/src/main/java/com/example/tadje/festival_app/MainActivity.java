@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,15 +23,17 @@ import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.model.Festival;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BandsFragment
+        .OnFragmentInterActionListener {
 
     SharedPreferences mPrefs;
     int festivalPosition;
@@ -41,25 +46,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Context mContext = this.getApplicationContext();
-        mPrefs = mContext.getSharedPreferences("myAppPrefs", 0);
-
-        Context context = this;
-
+        mPrefs = this.getApplicationContext().getSharedPreferences("myAppPrefs", 0);
 
 
         //Initialization of the database otherwise the app crashes
-        AppDatabase.getInstance(context);
+        AppDatabase.getInstance(this.getApplicationContext());
 
-
-
+        startDialog();
 //        if (this.getFirstRun()) {
 //            this.setRunned();
-//            firstStartDialog();
+//
 //        } else {
 //            fillTextViewWithFestival();
 //        }
-        firstStartDialog();
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -67,29 +66,39 @@ public class MainActivity extends AppCompatActivity {
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.yourBands:
-                                return true;
+                                break;
                             case R.id.bands:
-                                return true;
+                               fragment = new BandsFragment();
+                               break;
                             case R.id.Map:
-                                return true;
+                                break;
                             case R.id.Calender:
-                                return true;
+                                break;
                             case R.id.Camera:
-                                return true;
+                                break;
                         }
 
-                        return false;
+                        return setToFragment(fragment);
                     }
                 });
 
 
     }
 
+    private boolean setToFragment(Fragment newFragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, newFragment);
+        fragmentTransaction.commit();
+        return true;
+    }
 
 
-    private void firstStartDialog() {
+
+    private void startDialog() {
 
         AlertDialog.Builder firstStartDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -148,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
                                               @Override
                                               public void onNothingSelected(AdapterView<?> parent) { //wenn nichts ausgewählt wurde
-                                                  firstStartDialog();
+                                                 startDialog();
                                               }
                                           }
         );
@@ -165,14 +174,18 @@ public class MainActivity extends AppCompatActivity {
         edit.commit();
     }
 
+
+
+
+
     public void fillTextViewWithFestival() {
         TextView festivalNameView = findViewById(R.id.textViewFestivalName);
         TextView festivalOrtView = findViewById(R.id.textViewFestivalOrt);
         TextView festivalDatum = findViewById(R.id.textViewFestivalDatum);
-        Date festivalToDate = null;
-        Date festivalFromDate = null;
+        java.util.Date festivalToDate = null;
+        java.util.Date festivalFromDate = null;
 
-        int position = FestivalManager.getInstance().getListFrom() + 1;
+        int position = FestivalManager.getInstance().getListFrom();
 
         List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao().getAll();
 
@@ -184,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         try {
-            festivalFromDate = (Date) simpleDateFormat.parse(festivalFrom);
-            festivalToDate = (Date) simpleDateFormat.parse(festivalTo);
+            festivalFromDate = simpleDateFormat.parse(festivalFrom);
+            festivalToDate = simpleDateFormat.parse(festivalTo);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -194,27 +207,37 @@ public class MainActivity extends AppCompatActivity {
 
         festivalNameView.setText(festivalName);
         festivalOrtView.setText(festivalLocation);
-        festivalDatum.setText(festivalFromDate + " \n - \n " + festivalToDate);
+        festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
     }
 
-    private void daysBetweenDates(Date festivalFromDate, Date festivalToDate) {
+    private void daysBetweenDates(java.util.Date festivalFromDate, java.util.Date festivalToDate) {
 
-        Calendar calendarFrom = new GregorianCalendar();
+        Calendar calendarFrom = new GregorianCalendar(TimeZone.getTimeZone("Germany"));
+        calendarFrom.setLenient(true);
         calendarFrom.setTime(festivalFromDate);
+        calendarFrom.set(Calendar.HOUR, 0);
+        calendarFrom.set(Calendar.MINUTE, 0);
+        calendarFrom.set(Calendar.SECOND, 0);
+        calendarFrom.set(Calendar.MILLISECOND, 0);
 
-        Calendar calendarTo = new GregorianCalendar();
+
+        Calendar calendarTo = new GregorianCalendar(TimeZone.getTimeZone("Germany"));
         calendarTo.setTime(festivalToDate);
-
+        calendarTo.set(Calendar.HOUR, 0);
+        calendarTo.set(Calendar.MINUTE, 0);
+        calendarTo.set(Calendar.SECOND, 0);
+        calendarTo.set(Calendar.MILLISECOND, 0);
         int festivalDays = 0;
-        List<Integer> listOfWeekDays = null;
+        List<Integer> listOfWeekDays = new ArrayList<>();
 
-        while (calendarTo.after(calendarFrom)) {
+        while (calendarFrom.getTimeInMillis() <= calendarTo.getTimeInMillis()) {
 
             int dayOfWeek = calendarFrom.get(Calendar.DAY_OF_WEEK);
             listOfWeekDays.add(dayOfWeek);
             festivalDays++;
 
-            calendarFrom.add(calendarFrom.DATE, 1);
+            calendarFrom.add(Calendar.DATE, 1);
+
         }
         FestivalManager.getInstance().setFestivalDays(festivalDays);
         FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);

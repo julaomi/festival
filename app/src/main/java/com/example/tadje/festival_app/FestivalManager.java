@@ -15,7 +15,7 @@ public class FestivalManager {
 
     private static FestivalManager instance = null;
 
-    private String fileName = "Hurricane.json";
+    private String fileName = "festivals/Hurricane.json";
     private ArrayList<Festival> festivalList = (ArrayList<Festival>) AppDatabase.getInstance()
             .festivalDao().getAll();
     private int listFrom;

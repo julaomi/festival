@@ -1,14 +1,12 @@
 package com.example.tadje.festival_app;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.DataSetObserver;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -31,21 +29,24 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
     int days;
     ImageView daysImageView;
     TextView daysTextView;
-
-    private Context context;
+    List<Integer> listOfWeekdays;
 
 
     public BandsViewAdapter(ArrayList<Band> bandList, BandsFragment parent) {
         this.mDataset = bandList;
         this.mParent = parent;
+        listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
     }
 
 
     @Override
     public BandsViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         ViewGroup view = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout
                 .bands_fragment, parent, false);
-        days = FestivalManager.getInstance().getFestivalDays();
+
+        layoutInflater = LayoutInflater.from(parent.getContext());
+
 
         return new ViewHolder(view);
     }
@@ -53,13 +54,11 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
     @Override
     public void onBindViewHolder(BandsViewAdapter.ViewHolder holder, int position) {
         Band band = mDataset.get(position);
-
-
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.mDataset.size();
     }
 
     @Override
@@ -74,35 +73,35 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return this.listOfWeekdays.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return this.mDataset.get(position);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         if (convertView == null) {
 
-            convertView = getLayoutInflater().inflate(R.layout.band_days_layout, parent);
-            GridView gridView = convertView.findViewById(R.id.gridViewDays);
-            daysTextView = gridView.findViewById(R.id.textViewDay);
-            daysImageView = gridView.findViewById(R.id.imageViewForDays);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.band_days_layout, parent, false);
+            daysTextView = convertView.findViewById(R.id.textViewDay);
+            daysImageView = convertView.findViewById(R.id.imageViewForDays);
+            listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
 
-            addViews(days, convertView, gridView);
+            addViews(position);
 
         }
 
@@ -113,20 +112,14 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
             }
         });
 
-//        TextView dayTextView = convertView.findViewById(R.id.textViewDay);
-//
-//        if (position == 0) {
-//            dayTextView.setText("Montag");
-//        }
-
-
-        return null;
+        return convertView;
 
     }
 
+
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 2;
     }
 
     @Override
@@ -138,6 +131,10 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
         return layoutInflater;
     }
 
+    public void setLayoutInflater(LayoutInflater layoutInflater) {
+        this.layoutInflater = layoutInflater;
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -147,90 +144,88 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
         }
     }
 
+
     @SuppressLint("NewApi")
-    private void addViews(int days, View convertView, GridView gridView){
-        List<Integer> listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
-        Integer weekday = null;
+    private void addViews(int position) {
 
-        Context context = mParent.getContext();
+      // listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
 
-        for (int i = 0; i <= days; i++) {
-            weekday = listOfWeekdays.get(i);
+        Integer weekday = position;
 
-            switch (weekday){
+        if (position < listOfWeekdays.size()) {
+
+            weekday = listOfWeekdays.get(position);
+
+            switch (weekday) {
                 case 1:
                     daysTextView.setText("monday");
-                break;
+                    break;
                 case 2:
                     daysTextView.setText("tuesday");
-                break;
-                case 3: daysTextView.setText("wendsday");
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_donnerstag_round ,null));
-                break;
+                    break;
+                case 3:
+                    daysTextView.setText("wendsday");
+                    break;
                 case 4:
                     daysTextView.setText("thursday");
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_donnerstag_round ,null));
-                break;
+                    break;
                 case 5:
                     daysTextView.setText("friday");
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_fr_round ,null));
-                break;
+                    break;
                 case 6:
                     daysTextView.setText("saturday");
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_sa_round ,null));
-                break;
+                    break;
                 case 7:
                     daysTextView.setText("sunday");
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_so_round ,null));
-                break;
+                    break;
             }
 
-            switch (i){
+
+            switch (position) {
+                case 0:
+                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
+                            .mipmap.ic_launcher_first_round, null));
+                    break;
                 case 1:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_first_round,null));
+                            .mipmap.ic_launcher_second_round, null));
                     break;
                 case 2:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_second_round ,null));
+                            .mipmap.ic_launcher_third_round, null));
                     break;
                 case 3:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_third_round ,null));
+                            .mipmap.ic_launcher_fourth_round, null));
                     break;
                 case 4:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_fourth_round,null));
+                            .mipmap.ic_launcher_fifth_round, null));
                     break;
                 case 5:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_fifth_round ,null));
+                            .mipmap.ic_launcher_sixth_round, null));
                     break;
                 case 6:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_sixth_round ,null));
+                            .mipmap.ic_launcher_seventh_round, null));
                     break;
                 case 7:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_seventh_round,null));
-                    break;
-                case 8:
-                    daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_eighth_round ,null));
+                            .mipmap.ic_launcher_eighth_round, null));
                     break;
                 case 9:
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
-                            .mipmap.ic_launcher_donnerstag_round ,null));
+                            .mipmap.ic_launcher_ninth_round, null));
                     break;
 
             }
 
         }
 
+
     }
 }
+
+
+
