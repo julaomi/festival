@@ -8,10 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.example.tadje.festival_app.model.Band;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.tadje.festival_app.Bands.DaysViewAdapter;
 
 /**
  * Created by tadje on 05.06.2018.
@@ -19,10 +16,13 @@ import java.util.List;
 
 public class BandsFragment extends Fragment {
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bands_fragment, null, false);
+
+
         return view;
     }
 
@@ -30,11 +30,8 @@ public class BandsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        List<Band> bandList = FestivalManager.getInstance().getBandList();
-
         GridView gridView = view.findViewById(R.id.gridViewDays);
-        BandsViewAdapter bandsViewAdapter = new BandsViewAdapter((ArrayList<Band>) bandList, this);
+        DaysViewAdapter bandsViewAdapter = new DaysViewAdapter(this);
         gridView.setAdapter(bandsViewAdapter);
     }
 

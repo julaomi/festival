@@ -17,11 +17,15 @@ public interface FestivalDao {
     @Query("SELECT * FROM festival")
     List<Festival> getAll();
 
+    @Query("SELECT * FROM festival WHERE festivalName IN (:festivalName)")
+    List<Festival> getAllWhereFestival(String festivalName);
+
     @Query("SELECT id FROM festival WHERE festivalName IN (:festivalName)")
     int loadID(String festivalName);
 
     @Query("SELECT * FROM festival WHERE id IN (:Ids)")
     List<Festival> loadAllByIds(int[] Ids);
+
 
     @Query("SELECT festivalName FROM festival WHERE id IN (:id)")
     String loadFestivalNameById(int id);

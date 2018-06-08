@@ -1,7 +1,8 @@
-package com.example.tadje.festival_app;
+package com.example.tadje.festival_app.Reader;
 
 import android.content.Context;
 
+import com.example.tadje.festival_app.FestivalManager;
 import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.model.Festival;
 import com.google.gson.Gson;

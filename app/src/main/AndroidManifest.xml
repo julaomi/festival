@@ -28,9 +28,19 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".Bands.BandsOnADayActivity"
+            android:screenOrientation="portrait"
+            android:label="Bands">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" />
-    </application>
 
 </manifest>

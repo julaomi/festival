@@ -5,6 +5,7 @@ import com.example.tadje.festival_app.model.Band;
 import com.example.tadje.festival_app.model.Festival;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public class FestivalManager {
     private List<Band> bandList;
     private List<Integer> listOfWeekdays;
     private int festivalDays;
+    private int festivalDayPosition;
+    private List<Calendar> listOfDates;
 
     private FestivalManager() {
 
@@ -84,5 +87,21 @@ public class FestivalManager {
 
     public void setFestivalDays(int festivalDays) {
         this.festivalDays = festivalDays;
+    }
+
+    public int getFestivalDayPosition() {
+        return festivalDayPosition;
+    }
+
+    public void setFestivalDayPosition(int festivalDayPosition) {
+        this.festivalDayPosition = festivalDayPosition;
+    }
+
+    public void setListOfDates(List<Calendar> listOfDates) {
+        this.listOfDates = listOfDates;
+    }
+
+    public List<Calendar> getListOfDates() {
+        return listOfDates;
     }
 }

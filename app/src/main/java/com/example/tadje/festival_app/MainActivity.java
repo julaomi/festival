@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
+import com.example.tadje.festival_app.Reader.FestivalJsonReader;
 import com.example.tadje.festival_app.model.Festival;
 
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     int festivalPosition;
     String[] listOfFiles;
     Spinner festivalSpinner;
+    String fileName;
 
 
     @Override
@@ -145,13 +147,14 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
                                               @Override
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //wenn etwas ausgewählt wurde
-                                                  String fileName = adapter.getItem(position).toString(); //declaration with the
+                                                  fileName = adapter.getItem(position).toString(); //declaration with the
                                                   FestivalManager.getInstance().setFileName(fileName);
                                                   FestivalManager.getInstance().setListFrom(position);
                                                   // position of Spinner
                                                   FestivalManager.getInstance();
                                                   new FestivalJsonReader().informationsForReader
                                                           (fileName, context);
+                                                  fillTextViewWithFestival();
                                               }
 
 
@@ -186,8 +189,10 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         java.util.Date festivalFromDate = null;
 
         int position = FestivalManager.getInstance().getListFrom();
+        String[] selectedFestivalName = fileName.split("\\.");
 
-        List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao().getAll();
+        List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao()
+                .getAllWhereFestival(selectedFestivalName[0]);
 
         String festivalName = festivalInformations.get(position).getFestivalName();
         String festivalLocation = festivalInformations.get(position).getFestivalLocation();
@@ -227,20 +232,26 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         calendarTo.set(Calendar.MINUTE, 0);
         calendarTo.set(Calendar.SECOND, 0);
         calendarTo.set(Calendar.MILLISECOND, 0);
+
         int festivalDays = 0;
         List<Integer> listOfWeekDays = new ArrayList<>();
+        List<Calendar> listOfDates = new ArrayList<>();
 
         while (calendarFrom.getTimeInMillis() <= calendarTo.getTimeInMillis()) {
 
             int dayOfWeek = calendarFrom.get(Calendar.DAY_OF_WEEK);
             listOfWeekDays.add(dayOfWeek);
+
+            listOfDates.add(festivalDays,calendarFrom);
+
             festivalDays++;
 
             calendarFrom.add(Calendar.DATE, 1);
-
         }
+
         FestivalManager.getInstance().setFestivalDays(festivalDays);
         FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);
+        FestivalManager.getInstance().setListOfDates(listOfDates);
 
     }
 

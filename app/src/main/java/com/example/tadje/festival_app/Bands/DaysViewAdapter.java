@@ -1,6 +1,8 @@
-package com.example.tadje.festival_app;
+package com.example.tadje.festival_app.Bands;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,36 +13,38 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.example.tadje.festival_app.BandsFragment;
+import com.example.tadje.festival_app.FestivalManager;
+import com.example.tadje.festival_app.R;
 import com.example.tadje.festival_app.model.Band;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tadje on 05.06.2018.
  */
 
-public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.ViewHolder>
+public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHolder>
         implements ListAdapter {
 
-    ArrayList<Band> mDataset;
+    List<Band> mDataset;
     BandsFragment mParent;
     private LayoutInflater layoutInflater;
     int days;
     ImageView daysImageView;
     TextView daysTextView;
     List<Integer> listOfWeekdays;
+    Context mContext;
 
 
-    public BandsViewAdapter(ArrayList<Band> bandList, BandsFragment parent) {
-        this.mDataset = bandList;
+    public DaysViewAdapter(BandsFragment parent) {
         this.mParent = parent;
         listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
     }
 
 
     @Override
-    public BandsViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DaysViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         ViewGroup view = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout
                 .bands_fragment, parent, false);
@@ -52,7 +56,7 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(BandsViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(DaysViewAdapter.ViewHolder holder, int position) {
         Band band = mDataset.get(position);
     }
 
@@ -91,8 +95,8 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, final ViewGroup parent) {
+        mContext = parent.getContext();
 
         if (convertView == null) {
 
@@ -100,6 +104,7 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
             daysTextView = convertView.findViewById(R.id.textViewDay);
             daysImageView = convertView.findViewById(R.id.imageViewForDays);
             listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
+            convertView.setTag(position);
 
             addViews(position);
 
@@ -108,7 +113,12 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //start new activty
+                int position = (int) v.getTag();
+                FestivalManager.getInstance().setFestivalDayPosition(position);
+
+                final Intent intent = new Intent(mContext.getApplicationContext(), BandsOnADayActivity
+                        .class);
+                mParent.startActivity(intent);
             }
         });
 
@@ -147,10 +157,7 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
 
     @SuppressLint("NewApi")
     private void addViews(int position) {
-
-      // listOfWeekdays = FestivalManager.getInstance().getListOfWeekdays();
-
-        Integer weekday = position;
+           Integer weekday = position;
 
         if (position < listOfWeekdays.size()) {
 
@@ -226,6 +233,3 @@ public class BandsViewAdapter extends RecyclerView.Adapter<BandsViewAdapter.View
 
     }
 }
-
-
-

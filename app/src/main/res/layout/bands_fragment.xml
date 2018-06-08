@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgound" >
 
-
     <GridView
         android:id="@+id/gridViewDays"
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:padding="25dp"
+        android:numColumns="2"
         />
-
 
 </RelativeLayout>
