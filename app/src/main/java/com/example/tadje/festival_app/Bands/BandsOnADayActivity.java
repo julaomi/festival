@@ -24,12 +24,13 @@ public class BandsOnADayActivity extends Activity {
     private RecyclerView mRecyclerView;
     private List<Band> bandList;
     TextView day;
-
+    List<Band> myBandList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bands_on_a_day_layout);
+
 
         AppDatabase.getInstance(this.getApplicationContext());
 
@@ -87,4 +88,5 @@ public class BandsOnADayActivity extends Activity {
         }
 
     }
+
 }

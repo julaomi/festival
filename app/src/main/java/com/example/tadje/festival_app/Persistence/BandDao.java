@@ -27,6 +27,8 @@ public abstract class BandDao {
         }
     }
 
+//     @Query("SELECT * FROM bands WHERE favorite ")
+//     public abstract List<Band> getAllFavoritBands();
 
     @Query("SELECT * FROM bands WHERE id IN (:id)")
     public abstract List<Band> getAllFromID(int id);

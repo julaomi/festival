@@ -25,6 +25,7 @@ public class FestivalManager {
     private int festivalDays;
     private int festivalDayPosition;
     private List<Calendar> listOfDates;
+    private List<Band> selectetBandList = new ArrayList<>();
 
     private FestivalManager() {
 
@@ -103,5 +104,13 @@ public class FestivalManager {
 
     public List<Calendar> getListOfDates() {
         return listOfDates;
+    }
+
+    public List<Band> getSelectetBandList() {
+        return selectetBandList;
+    }
+
+    public void setSelectetBandList(List<Band> selectetBandList) {
+        this.selectetBandList = selectetBandList;
     }
 }

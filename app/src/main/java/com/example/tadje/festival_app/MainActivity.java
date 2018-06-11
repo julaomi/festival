@@ -34,7 +34,7 @@ import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements BandsFragment
-        .OnFragmentInterActionListener {
+        .OnFragmentInterActionListener,MyBandsFragment.OnFragmentInterActionListener {
 
     SharedPreferences mPrefs;
     int festivalPosition;
@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         setContentView(R.layout.activity_main);
 
         mPrefs = this.getApplicationContext().getSharedPreferences("myAppPrefs", 0);
-
-
         //Initialization of the database otherwise the app crashes
-        AppDatabase.getInstance(this.getApplicationContext());
+         AppDatabase.getInstance(this.getApplicationContext());
+
+        setToFragment(new InformationsStartFragment());
 
         startDialog();
 //        if (this.getFirstRun()) {
@@ -71,10 +71,11 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                         Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.yourBands:
+                                fragment = new MyBandsFragment();
                                 break;
                             case R.id.bands:
-                               fragment = new BandsFragment();
-                               break;
+                                fragment = new BandsFragment();
+                                break;
                             case R.id.Map:
                                 break;
                             case R.id.Calender:
@@ -86,18 +87,16 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                         return setToFragment(fragment);
                     }
                 });
-
-
     }
 
     private boolean setToFragment(Fragment newFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, newFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         return true;
     }
-
 
 
     private void startDialog() {
@@ -160,12 +159,11 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
                                               @Override
                                               public void onNothingSelected(AdapterView<?> parent) { //wenn nichts ausgewählt wurde
-                                                 startDialog();
+                                                  startDialog();
                                               }
                                           }
         );
     }
-
 
     public boolean getFirstRun() {
         return mPrefs.getBoolean("firstRun", true);
@@ -178,17 +176,16 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     }
 
 
-
-
-
     public void fillTextViewWithFestival() {
+
         TextView festivalNameView = findViewById(R.id.textViewFestivalName);
         TextView festivalOrtView = findViewById(R.id.textViewFestivalOrt);
         TextView festivalDatum = findViewById(R.id.textViewFestivalDatum);
         java.util.Date festivalToDate = null;
         java.util.Date festivalFromDate = null;
 
-        int position = FestivalManager.getInstance().getListFrom();
+        int position =0;
+             //   FestivalManager.getInstance().getListFrom();
         String[] selectedFestivalName = fileName.split("\\.");
 
         List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao()
@@ -213,7 +210,9 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         festivalNameView.setText(festivalName);
         festivalOrtView.setText(festivalLocation);
         festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
+
     }
+
 
     private void daysBetweenDates(java.util.Date festivalFromDate, java.util.Date festivalToDate) {
 
@@ -237,12 +236,15 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         List<Integer> listOfWeekDays = new ArrayList<>();
         List<Calendar> listOfDates = new ArrayList<>();
 
+
         while (calendarFrom.getTimeInMillis() <= calendarTo.getTimeInMillis()) {
 
             int dayOfWeek = calendarFrom.get(Calendar.DAY_OF_WEEK);
             listOfWeekDays.add(dayOfWeek);
 
-            listOfDates.add(festivalDays,calendarFrom);
+            Calendar clone = (Calendar) calendarFrom.clone();
+            clone.add(Calendar.DATE,1);
+            listOfDates.add(clone);
 
             festivalDays++;
 
@@ -256,3 +258,4 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     }
 
 }
+

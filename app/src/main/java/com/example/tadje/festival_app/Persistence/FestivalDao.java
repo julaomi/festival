@@ -48,4 +48,8 @@ public interface FestivalDao {
 
     @Query("SELECT * FROM festival WHERE id IN (:id)")
     List<Festival> loadAllById(int id);
+
+
+    @Query("DELETE FROM festival")
+    void deleteTable();
 }

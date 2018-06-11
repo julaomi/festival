@@ -26,9 +26,10 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
     List<Band> mDataset;
     BandsOnADayActivity mParent;
 
+    List<Band> myBandList;
     List<Band> bandListFromDate;
 
-    public BandsOnADayViewAdapter(List<Band> bandList, BandsOnADayActivity parent){
+    public BandsOnADayViewAdapter(List<Band> bandList, BandsOnADayActivity parent) {
         this.mDataset = bandList;
         this.mParent = parent;
 
@@ -38,7 +39,7 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
 
         for (int i = 0; i < mDataset.size(); ++i) {
             String dateFromList = mDataset.get(i).getDate();
-            if (dateFromList.equals(dateString)){
+            if (dateFromList.equals(dateString)) {
                 bandListFromDate.add(mDataset.get(i));
             }
         }
@@ -63,17 +64,21 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
             }
         });
 
+        holder.mAddToYourBandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Band bandForList = bandListFromDate.get(position);
 
+                myBandList = FestivalManager.getInstance().getSelectetBandList();
+                myBandList.add(bandForList);
+                FestivalManager.getInstance().setSelectetBandList(myBandList);
 
-     //   for (int i = 0; i < bandListFromDate.size(); ++i) {
-            holder.mBandTime.setText(bandListFromDate.get(position).getTime());
-            holder.mBandName.setText(bandListFromDate.get(position).getBandName());
-     //   }
+            }
+        });
 
-
+        holder.mBandTime.setText(bandListFromDate.get(position).getTime());
+        holder.mBandName.setText(bandListFromDate.get(position).getBandName());
     }
-
-
 
 
     private String checkTheDatePosition(int position) {
@@ -81,14 +86,11 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
         List<Calendar> listOfDates = FestivalManager.getInstance().getListOfDates();
         Calendar selectetDate = listOfDates.get(position);
 
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String dateString = simpleDateFormat.format(selectetDate.getTime());
 
         return dateString;
     }
-
-
-
 
 
     @Override

@@ -42,14 +42,13 @@ public class FestivalJsonReader {
         Festival festival = gson.fromJson(json, Festival.class);
         addFestival(festival);
 
-
-
         return festivalList;
 
     }
 
     private Festival addFestival(Festival festival) {
 
+        AppDatabase.getInstance().festivalDao().deleteTable();
         AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
         FestivalManager.getInstance().setBandList(festival.getBands());
         AppDatabase.getInstance().festivalDao().insert(festival);
