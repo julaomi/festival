@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.model.Band;
 
 import java.util.List;
@@ -14,15 +15,15 @@ import java.util.List;
  * Created by tadje on 11.06.2018.
  */
 
-class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.ViewHolder>{
+public class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.ViewHolder> {
 
     List<Band> mbDataset;
     MyBandsFragment mbParent;
 
 
     public MyBandsViewAdapter(MyBandsFragment myBands) {
-     this.mbParent = myBands;
-     mbDataset =  FestivalManager.getInstance().getSelectetBandList();
+        this.mbParent = myBands;
+        mbDataset = AppDatabase.getInstance().bandDao().getAllWhereFavouriteTrue();
     }
 
 
@@ -35,26 +36,30 @@ class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Band bandFromList = mbDataset.get(position);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.itemView.setTag(position);
+
+                mbParent.deleteBandFromListDialog(position, mbDataset);
             }
         });
+        List<Band> selectetBandList = FestivalManager.getInstance().getSelectetBandList();
 
-
-        holder.mBand.setText(bandFromList.getBandName());
-        holder.mWeekday.setText(bandFromList.getDate());
-        holder.mTime.setText(bandFromList.getTime());
-        holder.mStage.setText(bandFromList.getStage());
+        holder.mBand.setText(selectetBandList.get(position).getBandName());
+        holder.mWeekday.setText(selectetBandList.get(position).getDate());
+        holder.mTime.setText(selectetBandList.get(position).getTime());
+        holder.mStage.setText(selectetBandList.get(position).getStage());
     }
+
 
     @Override
     public int getItemCount() {
-        return mbDataset.size() ;
+
+        return FestivalManager.getInstance().getSelectetBandList().size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView mBand;

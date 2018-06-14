@@ -37,16 +37,17 @@ public class Band {
     @ColumnInfo(name = "time")
     private String time;
 
-//    @SerializedName("favorite")
-//    @Expose
-//    @ColumnInfo(name = "favorite")
-//    private boolean favorite;
+    @SerializedName("favourite")
+    @Expose
+    @ColumnInfo(name = "favourite")
+    private boolean favourite = false;
 
-    public Band(String bandName,  String stage, String date, String time) {
+    public Band(String bandName, String stage, String date, String time, boolean favourite) {
         this.bandName = bandName;
         this.stage = stage;
         this.date = date;
         this.time = time;
+        this.favourite = favourite;
     }
 
     public String getBandName() {
@@ -89,11 +90,12 @@ public class Band {
         this.id = id;
     }
 
-//    public boolean isFavorite() {
-//        return favorite;
-//    }
-//
-//    public void setFavorite(boolean favorite) {
-//        this.favorite = favorite;
-//    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
 }

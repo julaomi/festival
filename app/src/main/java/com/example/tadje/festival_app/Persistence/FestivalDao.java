@@ -33,12 +33,17 @@ public interface FestivalDao {
     @Query("SELECT location FROM festival WHERE id IN (:id)")
     String loadFestivalLocationByID(int id);
 
-
     @Query("SELECT festivalfrom FROM festival WHERE id IN (:id)")
     String loadFestivalFromByID(int id);
 
     @Query("SELECT festivalto FROM festival WHERE id IN (:id)")
     String loadFestivalTOByID(int id);
+
+    @Query("SELECT * FROM festival WHERE selected IN (:myBoolean)")
+    Festival allFromSelectedFestival(int myBoolean);
+
+    @Query("UPDATE festival SET selected = (:myBoolean) WHERE festivalName IN (:festivalName)")
+    int setSelected(boolean myBoolean, String festivalName);
 
     @Insert
     void insert(Festival festival);
@@ -52,4 +57,7 @@ public interface FestivalDao {
 
     @Query("DELETE FROM festival")
     void deleteTable();
+
+    @Query( "UPDATE festival SET selected = (:myBoolean)")
+    void setSelectedAll(boolean myBoolean);
 }

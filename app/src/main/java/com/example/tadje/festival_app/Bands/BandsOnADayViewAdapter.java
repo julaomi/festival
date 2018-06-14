@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tadje.festival_app.FestivalManager;
+import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.R;
 import com.example.tadje.festival_app.model.Band;
 
@@ -26,7 +27,6 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
     List<Band> mDataset;
     BandsOnADayActivity mParent;
 
-    List<Band> myBandList;
     List<Band> bandListFromDate;
 
     public BandsOnADayViewAdapter(List<Band> bandList, BandsOnADayActivity parent) {
@@ -45,6 +45,8 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
         }
     }
 
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewGroup view = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout
@@ -53,9 +55,10 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
         return new ViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,17 +67,28 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
             }
         });
 
+        final Band bandForList = bandListFromDate.get(position);
+
+        if(bandForList.isFavourite()){
+            holder.mAddToYourBandButton.setVisibility(View.GONE);
+        } else {
+            holder.mAddToYourBandButton.setVisibility(View.VISIBLE);
+        }
+
+
         holder.mAddToYourBandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Band bandForList = bandListFromDate.get(position);
 
-                myBandList = FestivalManager.getInstance().getSelectetBandList();
-                myBandList.add(bandForList);
-                FestivalManager.getInstance().setSelectetBandList(myBandList);
+                AppDatabase.getInstance().bandDao().setFavourite(0, (bandForList.getBandName
+                        ()));
+                bandForList.setFavourite(true);
+                FestivalManager.getInstance().getSelectetBandList().add(bandForList);
 
+                holder.mAddToYourBandButton.setVisibility(View.GONE);
             }
         });
+
 
         holder.mBandTime.setText(bandListFromDate.get(position).getTime());
         holder.mBandName.setText(bandListFromDate.get(position).getBandName());
@@ -82,7 +96,6 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
 
 
     private String checkTheDatePosition(int position) {
-        int test = position;
         List<Calendar> listOfDates = FestivalManager.getInstance().getListOfDates();
         Calendar selectetDate = listOfDates.get(position);
 
@@ -91,6 +104,7 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
 
         return dateString;
     }
+
 
 
     @Override

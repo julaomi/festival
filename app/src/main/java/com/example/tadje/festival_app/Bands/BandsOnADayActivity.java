@@ -37,7 +37,7 @@ public class BandsOnADayActivity extends Activity {
         day = findViewById(R.id.textViewForDay);
         createTextViewOfThisDay();
 
-        bandList = FestivalManager.getInstance().getBandList();
+        bandList = FestivalManager.getInstance().getSelectedFestival().getBands();
 
         if (bandList != null) {
             mRecyclerView = findViewById(R.id.recyclerViewBands);

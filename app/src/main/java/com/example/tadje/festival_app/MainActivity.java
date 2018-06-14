@@ -34,7 +34,7 @@ import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements BandsFragment
-        .OnFragmentInterActionListener,MyBandsFragment.OnFragmentInterActionListener {
+        .OnFragmentInterActionListener, MyBandsFragment.OnFragmentInterActionListener {
 
     SharedPreferences mPrefs;
     int festivalPosition;
@@ -50,17 +50,17 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
         mPrefs = this.getApplicationContext().getSharedPreferences("myAppPrefs", 0);
         //Initialization of the database otherwise the app crashes
-         AppDatabase.getInstance(this.getApplicationContext());
+        AppDatabase.getInstance(this.getApplicationContext());
 
         setToFragment(new InformationsStartFragment());
 
         startDialog();
 //        if (this.getFirstRun()) {
-//            this.setRunned();
+//           this.setRunned();
 //
-//        } else {
-//            fillTextViewWithFestival();
-//        }
+//       } else {
+//           fillTextViewWithFestival();
+//       }
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -142,17 +142,23 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-
                                               @Override
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //wenn etwas ausgewählt wurde
-                                                  fileName = adapter.getItem(position).toString(); //declaration with the
+
+                                                  fileName = adapter.getItem(position).toString();
+
                                                   FestivalManager.getInstance().setFileName(fileName);
-                                                  FestivalManager.getInstance().setListFrom(position);
-                                                  // position of Spinner
+
+                                                  String[] name = fileName.split("\\.");
+
+                                                  AppDatabase.getInstance().festivalDao()
+                                                          .setSelected(true, (name[0]));
+
+
                                                   FestivalManager.getInstance();
                                                   new FestivalJsonReader().informationsForReader
                                                           (fileName, context);
+
                                                   fillTextViewWithFestival();
                                               }
 
@@ -181,20 +187,22 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         TextView festivalNameView = findViewById(R.id.textViewFestivalName);
         TextView festivalOrtView = findViewById(R.id.textViewFestivalOrt);
         TextView festivalDatum = findViewById(R.id.textViewFestivalDatum);
+
         java.util.Date festivalToDate = null;
         java.util.Date festivalFromDate = null;
 
-        int position =0;
-             //   FestivalManager.getInstance().getListFrom();
-        String[] selectedFestivalName = fileName.split("\\.");
+        Festival festivalInformations = FestivalManager.getInstance().getSelectedFestival();
 
-        List<Festival> festivalInformations = AppDatabase.getInstance().festivalDao()
-                .getAllWhereFestival(selectedFestivalName[0]);
+        if (festivalInformations == null) {
+            festivalInformations = AppDatabase.getInstance().festivalDao()
+                    .allFromSelectedFestival(1);
 
-        String festivalName = festivalInformations.get(position).getFestivalName();
-        String festivalLocation = festivalInformations.get(position).getFestivalLocation();
-        String festivalFrom = festivalInformations.get(position).getFestivalfrom();
-        String festivalTo = festivalInformations.get(position).getFestivalto();
+        }
+
+        String festivalName = festivalInformations.getFestivalName();
+        String festivalLocation = festivalInformations.getFestivalLocation();
+        String festivalFrom = festivalInformations.getFestivalfrom();
+        String festivalTo = festivalInformations.getFestivalto();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -243,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
             listOfWeekDays.add(dayOfWeek);
 
             Calendar clone = (Calendar) calendarFrom.clone();
-            clone.add(Calendar.DATE,1);
+            clone.add(Calendar.DATE, 1);
             listOfDates.add(clone);
 
             festivalDays++;
@@ -254,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         FestivalManager.getInstance().setFestivalDays(festivalDays);
         FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);
         FestivalManager.getInstance().setListOfDates(listOfDates);
-
     }
 
 }

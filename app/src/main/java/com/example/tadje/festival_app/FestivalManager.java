@@ -1,6 +1,5 @@
 package com.example.tadje.festival_app;
 
-import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.model.Band;
 import com.example.tadje.festival_app.model.Festival;
 
@@ -16,10 +15,9 @@ public class FestivalManager {
 
     private static FestivalManager instance = null;
 
+    private Festival selectedFestival;
+
     private String fileName = "festivals/Hurricane.json";
-    private ArrayList<Festival> festivalList = (ArrayList<Festival>) AppDatabase.getInstance()
-            .festivalDao().getAll();
-    private int listFrom;
     private List<Band> bandList;
     private List<Integer> listOfWeekdays;
     private int festivalDays;
@@ -49,22 +47,6 @@ public class FestivalManager {
     }
 
 
-
-    public int getListFrom() {
-        return listFrom;
-    }
-
-    public void setListFrom(int listFrom) {
-        this.listFrom = listFrom;
-    }
-
-    public ArrayList<Festival> getFestivalList() {
-        return festivalList;
-    }
-
-    public void setFestivalList(ArrayList<Festival> festivalList) {
-        this.festivalList = festivalList;
-    }
 
     public List<Band> getBandList() {
         return bandList;
@@ -112,5 +94,13 @@ public class FestivalManager {
 
     public void setSelectetBandList(List<Band> selectetBandList) {
         this.selectetBandList = selectetBandList;
+    }
+
+    public Festival getSelectedFestival() {
+        return selectedFestival;
+    }
+
+    public void setSelectedFestival(Festival selectedFestival) {
+        this.selectedFestival = selectedFestival;
     }
 }

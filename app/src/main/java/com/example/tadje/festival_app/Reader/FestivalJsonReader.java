@@ -49,9 +49,17 @@ public class FestivalJsonReader {
     private Festival addFestival(Festival festival) {
 
         AppDatabase.getInstance().festivalDao().deleteTable();
+        AppDatabase.getInstance().bandDao().deleteTable();
+
         AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+
         FestivalManager.getInstance().setBandList(festival.getBands());
+
+        FestivalManager.getInstance().setSelectedFestival(festival);
+
         AppDatabase.getInstance().festivalDao().insert(festival);
+
+
         return festival;
     }
 

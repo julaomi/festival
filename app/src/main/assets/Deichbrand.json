@@ -3,114 +3,133 @@
   "location": "Cuxhaven",
   "festivalfrom": "19.07.2018",
   "festivalto": "22.07.2018",
+  "selected" : "false",
   "bands": [
     {
       "bandname": "CHEFBOSS",
       "stage": "Fire Stage",
       "date": "20.07.2018",
-      "time": "16:45"
+      "time": "16:45",
+      "favourite":"false"
     },
     {
       "bandname": "CASPER",
       "stage": "Fire Stage",
       "date": "20.07.2018",
-      "time": "23:45"
+      "time": "23:45",
+      "favourite":"false"
     },
     {
       "bandname": "AMY MACDONALD",
       "stage": "Fire Stage",
       "date": "20.07.2018",
-      "time": "18:45"
+      "time": "18:45",
+      "favourite":"false"
     },
     {
       "bandname": "257ERS",
       "stage": "Water Stage",
       "date": "20.07.2018",
-      "time": "19:15"
+      "time": "19:15",
+      "favourite":"false"
     },
     {
       "bandname": "THE SUBWAYS",
       "stage": "Water Stage",
       "date": "20.07.2018",
-      "time": "21:15"
+      "time": "21:15",
+      "favourite":"false"
     },
     {
       "bandname": "CLUESO",
       "stage": "Water Stage",
       "date": "20.07.2018",
-      "time": "20:15"
+      "time": "20:15",
+      "favourite":"false"
     },
     {
       "bandname": "KONTRA K",
       "stage": "Water Stage",
       "date": "21.07.2018",
-      "time": "16:15"
+      "time": "16:15",
+      "favourite":"false"
     },
     {
       "bandname": "KETTCAR",
       "stage": "Water Stage",
       "date": "21.07.2018",
-      "time": "17:15"
+      "time": "17:15",
+      "favourite":"false"
     },
     {
       "bandname": "ROGERS",
       "stage": "Fire Stage",
       "date": "21.07.2018",
-      "time": "19:15"
+      "time": "19:15",
+      "favourite":"false"
     },
     {
       "bandname": "MANDO DIAO",
       "stage": "Fire Stage",
       "date": "21.07.2018",
-      "time": "20:00"
+      "time": "20:00",
+      "favourite":"false"
     },
     {
       "bandname": "THE KILLERS",
       "stage": "Fire Stage",
       "date": "21.07.2018",
-      "time": "22:15"
+      "time": "22:15",
+      "favourite":"false"
     },
     {
       "bandname": "KID SIMIUS",
       "stage": "Palastzelt",
       "date": "21.07.2018",
-      "time": "00:15"
+      "time": "00:15",
+      "favourite":"false"
     },
     {
       "bandname": "ALLIGATOAH",
       "stage": "Fire Stage",
       "date": "22.07.2018",
-      "time": "17:15"
+      "time": "17:15",
+      "favourite":"false"
     },
     {
       "bandname": "BOSSE",
       "stage": "Fire Stage",
       "date": "22.07.2018",
-      "time": "19:15"
+      "time": "19:15",
+      "favourite":"false"
     },
     {
       "bandname": "DIE TOTEN HOSEN",
       "stage": "Fire Stage",
       "date": "22.07.2018",
-      "time": "23:15"
+      "time": "23:15",
+      "favourite":"false"
     },
     {
       "bandname": "SDP",
       "stage": "Water Stage",
       "date": "22.07.2018",
-      "time": "20:15"
+      "time": "20:15",
+      "favourite":"false"
     },
     {
       "bandname": "HEISSKALT",
       "stage": "Water Stage",
       "date": "22.07.2018",
-      "time": "18:15"
+      "time": "18:15",
+      "favourite":"false"
     },
     {
       "bandname": "MILKY CHANCE",
       "stage": "Water Stage",
       "date": "22.07.2018",
-      "time": "21:00"
+      "time": "21:00",
+      "favourite":"false"
     }
   ]
 }

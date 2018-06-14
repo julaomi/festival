@@ -40,6 +40,11 @@ public class Festival {
     @ColumnInfo(name = "festivalto")
     private String festivalto;
 
+    @SerializedName("selected")
+    @Expose
+    @ColumnInfo(name = "selected")
+    private boolean selected;
+
     @SerializedName("bands")
     @Expose
     @TypeConverters({MyTypeConverter.class})
@@ -47,11 +52,12 @@ public class Festival {
 
 
     public Festival(String festivalName, String festivalLocation, String festivalfrom, String
-            festivalto) {
+            festivalto, boolean selected) {
         this.festivalName = festivalName;
         this.festivalLocation = festivalLocation;
         this.festivalfrom = festivalfrom;
         this.festivalto = festivalto;
+        this.selected = selected;
 
     }
 
@@ -103,5 +109,13 @@ public class Festival {
 
     public void setFestivalto(String festivalto) {
         this.festivalto = festivalto;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

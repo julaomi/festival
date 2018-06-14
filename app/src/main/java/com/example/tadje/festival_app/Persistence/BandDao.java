@@ -13,6 +13,8 @@ import java.util.List;
  */
 @Dao
 public abstract class BandDao {
+
+
     @Query("SELECT * FROM bands")
     abstract List<Band> getAll();
 
@@ -21,16 +23,26 @@ public abstract class BandDao {
 
     public void insertAll(List<Band> bands) {
         long[] ids = insertAllRaw(bands);
-        for(int i=0; i < ids.length; ++i) {
+        for (int i = 0; i < ids.length; ++i) {
             bands.get(i).setId(ids[i]);
 
         }
     }
 
-//     @Query("SELECT * FROM bands WHERE favorite ")
-//     public abstract List<Band> getAllFavoritBands();
+    @Query("UPDATE bands SET favourite = 0")
+    public abstract int setAllFavourite();
 
-    @Query("SELECT * FROM bands WHERE id IN (:id)")
+    @Query("UPDATE bands SET favourite = (:favourite) WHERE bandName IS :bandName")
+    public abstract int setFavourite(int favourite, String bandName);
+
+    @Query("SELECT * FROM bands WHERE favourite IS 1")
+    public abstract List<Band> getAllWhereFavouriteTrue();
+
+    @Query("SELECT * FROM bands WHERE id IS :id")
     public abstract List<Band> getAllFromID(int id);
+
+    @Query("DELETE FROM bands")
+    public abstract void deleteTable();
+
 
 }

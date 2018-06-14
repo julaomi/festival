@@ -154,7 +154,6 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
         }
     }
 
-
     @SuppressLint("NewApi")
     private void addViews(int position) {
            Integer weekday = position;
@@ -186,7 +185,6 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
                     daysTextView.setText("sunday");
                     break;
             }
-
 
             switch (position) {
                 case 0:
@@ -225,11 +223,7 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
                     daysImageView.setBackground(ResourcesCompat.getDrawable(mParent.getResources(), R
                             .mipmap.ic_launcher_ninth_round, null));
                     break;
-
             }
-
         }
-
-
     }
 }
