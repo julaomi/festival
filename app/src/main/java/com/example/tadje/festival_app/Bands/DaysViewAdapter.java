@@ -164,25 +164,25 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
 
             switch (weekday) {
                 case 1:
-                    daysTextView.setText("monday");
+                    daysTextView.setText(R.string.monday);
                     break;
                 case 2:
-                    daysTextView.setText("tuesday");
+                    daysTextView.setText(R.string.tuesday);
                     break;
                 case 3:
-                    daysTextView.setText("wendsday");
+                    daysTextView.setText(R.string.wednesday);
                     break;
                 case 4:
-                    daysTextView.setText("thursday");
+                    daysTextView.setText(R.string.thursday);
                     break;
                 case 5:
-                    daysTextView.setText("friday");
+                    daysTextView.setText(R.string.friday);
                     break;
                 case 6:
-                    daysTextView.setText("saturday");
+                    daysTextView.setText(R.string.saturday);
                     break;
                 case 7:
-                    daysTextView.setText("sunday");
+                    daysTextView.setText(R.string.sunday);
                     break;
             }
 

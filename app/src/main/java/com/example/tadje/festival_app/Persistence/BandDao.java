@@ -3,6 +3,7 @@ package com.example.tadje.festival_app.Persistence;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.tadje.festival_app.model.Band;
 
@@ -15,8 +16,8 @@ import java.util.List;
 public abstract class BandDao {
 
 
-    @Query("SELECT * FROM bands")
-    abstract List<Band> getAll();
+    @Update
+    public abstract void update(Band band);
 
     @Insert
     abstract long[] insertAllRaw(List<Band> band);
@@ -25,7 +26,6 @@ public abstract class BandDao {
         long[] ids = insertAllRaw(bands);
         for (int i = 0; i < ids.length; ++i) {
             bands.get(i).setId(ids[i]);
-
         }
     }
 
@@ -44,5 +44,6 @@ public abstract class BandDao {
     @Query("DELETE FROM bands")
     public abstract void deleteTable();
 
-
+    @Query("SELECT * FROM bands")
+    public abstract List<Band> getAll();
 }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         .OnFragmentInterActionListener, MyBandsFragment.OnFragmentInterActionListener {
 
     SharedPreferences mPrefs;
-    int festivalPosition;
     String[] listOfFiles;
     Spinner festivalSpinner;
     String fileName;
@@ -195,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
         if (festivalInformations == null) {
             festivalInformations = AppDatabase.getInstance().festivalDao()
-                    .allFromSelectedFestival(1);
+                    .allFromSelectedFestival();
 
         }
 
@@ -240,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         calendarTo.set(Calendar.SECOND, 0);
         calendarTo.set(Calendar.MILLISECOND, 0);
 
-        int festivalDays = 0;
         List<Integer> listOfWeekDays = new ArrayList<>();
         List<Calendar> listOfDates = new ArrayList<>();
 
@@ -254,12 +252,9 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
             clone.add(Calendar.DATE, 1);
             listOfDates.add(clone);
 
-            festivalDays++;
-
             calendarFrom.add(Calendar.DATE, 1);
         }
 
-        FestivalManager.getInstance().setFestivalDays(festivalDays);
         FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);
         FestivalManager.getInstance().setListOfDates(listOfDates);
     }

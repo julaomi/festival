@@ -3,6 +3,7 @@ package com.example.tadje.festival_app.Persistence;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.tadje.festival_app.model.Festival;
 
@@ -39,14 +40,17 @@ public interface FestivalDao {
     @Query("SELECT festivalto FROM festival WHERE id IN (:id)")
     String loadFestivalTOByID(int id);
 
-    @Query("SELECT * FROM festival WHERE selected IN (:myBoolean)")
-    Festival allFromSelectedFestival(int myBoolean);
+    @Query("SELECT * FROM festival WHERE selected IS 1")
+    Festival allFromSelectedFestival();
 
     @Query("UPDATE festival SET selected = (:myBoolean) WHERE festivalName IN (:festivalName)")
     int setSelected(boolean myBoolean, String festivalName);
 
     @Insert
     void insert(Festival festival);
+
+    @Update
+    void update(Festival festival);
 
     @Insert
     void insertAll(Festival... festivals);
@@ -60,4 +64,7 @@ public interface FestivalDao {
 
     @Query( "UPDATE festival SET selected = (:myBoolean)")
     void setSelectedAll(boolean myBoolean);
+
+    @Query("SELECT festivalName FROM festival")
+    String getFestivalName();
 }

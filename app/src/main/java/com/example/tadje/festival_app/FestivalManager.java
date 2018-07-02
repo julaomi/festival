@@ -1,9 +1,7 @@
 package com.example.tadje.festival_app;
 
-import com.example.tadje.festival_app.model.Band;
 import com.example.tadje.festival_app.model.Festival;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,12 +16,9 @@ public class FestivalManager {
     private Festival selectedFestival;
 
     private String fileName = "festivals/Hurricane.json";
-    private List<Band> bandList;
     private List<Integer> listOfWeekdays;
-    private int festivalDays;
     private int festivalDayPosition;
     private List<Calendar> listOfDates;
-    private List<Band> selectetBandList = new ArrayList<>();
 
     private FestivalManager() {
 
@@ -48,14 +43,6 @@ public class FestivalManager {
 
 
 
-    public List<Band> getBandList() {
-        return bandList;
-    }
-
-    public void setBandList(List<Band> bandList) {
-        this.bandList = bandList;
-    }
-
     public List<Integer> getListOfWeekdays() {
         return listOfWeekdays;
     }
@@ -64,13 +51,6 @@ public class FestivalManager {
         this.listOfWeekdays = listOfWeekdays;
     }
 
-    public int getFestivalDays() {
-        return festivalDays;
-    }
-
-    public void setFestivalDays(int festivalDays) {
-        this.festivalDays = festivalDays;
-    }
 
     public int getFestivalDayPosition() {
         return festivalDayPosition;
@@ -88,13 +68,6 @@ public class FestivalManager {
         return listOfDates;
     }
 
-    public List<Band> getSelectetBandList() {
-        return selectetBandList;
-    }
-
-    public void setSelectetBandList(List<Band> selectetBandList) {
-        this.selectetBandList = selectetBandList;
-    }
 
     public Festival getSelectedFestival() {
         return selectedFestival;

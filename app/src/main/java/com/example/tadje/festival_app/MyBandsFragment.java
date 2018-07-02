@@ -53,34 +53,25 @@ public class MyBandsFragment extends android.support.v4.app.Fragment {
 
 
     public void deleteBandFromListDialog(final int position, final List<Band> mbDataset) {
-        AlertDialog.Builder bandDeleteAlertDialog = new AlertDialog.Builder(getActivity());
-        bandDeleteAlertDialog.setTitle("Band aus Liste Löschen");
-        bandDeleteAlertDialog.setMessage("Möchtest du diese Band wirklich Löschen?");
+        final AlertDialog.Builder bandDeleteAlertDialog = new AlertDialog.Builder(getActivity());
+        bandDeleteAlertDialog.setTitle(getString(R.string.deleteBand));
+        bandDeleteAlertDialog.setMessage(getString(R.string.reallyDelete));
 
         bandDeleteAlertDialog.setPositiveButton(getString(R.string.delete), new DialogInterface
                 .OnClickListener
                 () {
             public void onClick(DialogInterface arg0, int arg1) {
-                List<Band> listOfMyBands;
 
-                listOfMyBands = FestivalManager.getInstance()
-                       .getSelectetBandList();
 
-                if (listOfMyBands.size() == 0) {
-                    listOfMyBands = AppDatabase.getInstance().bandDao()
-                            .getAllWhereFavouriteTrue();
-                }
+                List<Band> listOfSelectedBands = myBandsViewAdapter.getDataset();
 
-                String nameForDatabase = listOfMyBands.get(position).getBandName();
+                Band clickedBand = listOfSelectedBands.get(position);
+                clickedBand.setFavourite(false);
+                AppDatabase.getInstance().bandDao().update(clickedBand);
 
-                AppDatabase.getInstance().bandDao().setFavourite(0, nameForDatabase);
-
-                listOfMyBands.remove(position);
-
-                FestivalManager.getInstance().setSelectetBandList(listOfMyBands);
+                listOfSelectedBands.remove(clickedBand);
 
                 myBandsViewAdapter.notifyDataSetChanged();
-
             }
         });
 

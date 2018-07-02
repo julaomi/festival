@@ -5,4 +5,14 @@
     <string name="festivaldatum">Festival Datum</string>
     <string name="delete">delete</string>
     <string name="cancel">cancel</string>
+    <string name="deleteBand">delete selected band</string>
+    <string name="reallyDelete">do you really want to delete this band?</string>
+    <string name="monday">monday</string>
+    <string name="tuesday">tuesday</string>
+    <string name="wednesday">wednesday</string>
+    <string name="thursday">thursday</string>
+    <string name="friday">friday</string>
+    <string name="saturday">saturday</string>
+    <string name="sunday">sunday</string>
+
 </resources>

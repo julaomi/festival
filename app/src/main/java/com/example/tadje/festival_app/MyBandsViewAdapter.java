@@ -17,11 +17,11 @@ import java.util.List;
 
 public class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.ViewHolder> {
 
-    List<Band> mbDataset;
-    MyBandsFragment mbParent;
+    private List<Band> mbDataset;
+    private MyBandsFragment mbParent;
 
 
-    public MyBandsViewAdapter(MyBandsFragment myBands) {
+    MyBandsViewAdapter(MyBandsFragment myBands) {
         this.mbParent = myBands;
         mbDataset = AppDatabase.getInstance().bandDao().getAllWhereFavouriteTrue();
     }
@@ -45,23 +45,26 @@ public class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.
                 mbParent.deleteBandFromListDialog(position, mbDataset);
             }
         });
-        List<Band> selectetBandList = FestivalManager.getInstance().getSelectetBandList();
+        Band band = mbDataset.get(position);
 
-        holder.mBand.setText(selectetBandList.get(position).getBandName());
-        holder.mWeekday.setText(selectetBandList.get(position).getDate());
-        holder.mTime.setText(selectetBandList.get(position).getTime());
-        holder.mStage.setText(selectetBandList.get(position).getStage());
+        holder.mBand.setText(band.getBandName());
+        holder.mWeekday.setText(band.getDate());
+        holder.mTime.setText(band.getTime());
+        holder.mStage.setText(band.getStage());
     }
 
 
     @Override
     public int getItemCount() {
+        return mbDataset.size();
+    }
 
-        return FestivalManager.getInstance().getSelectetBandList().size();
+    public List<Band> getDataset(){
+        return mbDataset;
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView mBand;
         TextView mWeekday;
         TextView mTime;
@@ -69,7 +72,7 @@ public class MyBandsViewAdapter extends RecyclerView.Adapter<MyBandsViewAdapter.
 
         ViewGroup container;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mBand = itemView.findViewById(R.id.textViewBandNameInMyBands);
             mWeekday = itemView.findViewById(R.id.textViewWeekday);

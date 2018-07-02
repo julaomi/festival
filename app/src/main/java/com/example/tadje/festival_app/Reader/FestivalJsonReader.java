@@ -24,6 +24,7 @@ public class FestivalJsonReader {
         FestivalManager.getInstance().getFileName();
         festivalList.clear();
 
+
       String json = null;
         try {
             InputStream inputStream = context.getAssets().open(fileName);
@@ -48,16 +49,19 @@ public class FestivalJsonReader {
 
     private Festival addFestival(Festival festival) {
 
-        AppDatabase.getInstance().festivalDao().deleteTable();
-        AppDatabase.getInstance().bandDao().deleteTable();
+       String existFestivalName = AppDatabase.getInstance().festivalDao().getFestivalName();
 
-        AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+       if (existFestivalName != festival.getFestivalName()){
+           AppDatabase.getInstance().festivalDao().insert(festival);
+           AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
 
-        FestivalManager.getInstance().setBandList(festival.getBands());
+           FestivalManager.getInstance().setSelectedFestival(festival);
 
-        FestivalManager.getInstance().setSelectedFestival(festival);
+           festival.setSelected(true);
+           AppDatabase.getInstance().festivalDao().update(festival);
+       }
 
-        AppDatabase.getInstance().festivalDao().insert(festival);
+
 
 
         return festival;

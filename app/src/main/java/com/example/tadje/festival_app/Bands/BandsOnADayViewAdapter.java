@@ -30,11 +30,12 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
     List<Band> bandListFromDate;
 
     public BandsOnADayViewAdapter(List<Band> bandList, BandsOnADayActivity parent) {
-        this.mDataset = bandList;
+        this.mDataset =  AppDatabase.getInstance().bandDao().getAll();
         this.mParent = parent;
 
         int festivalDayPosition = FestivalManager.getInstance().getFestivalDayPosition();
         final String dateString = checkTheDatePosition(festivalDayPosition);
+
         bandListFromDate = new ArrayList<>();
 
         for (int i = 0; i < mDataset.size(); ++i) {
@@ -67,6 +68,7 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
             }
         });
 
+
         final Band bandForList = bandListFromDate.get(position);
 
         if(bandForList.isFavourite()){
@@ -79,12 +81,8 @@ public class BandsOnADayViewAdapter extends RecyclerView.Adapter<BandsOnADayView
         holder.mAddToYourBandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AppDatabase.getInstance().bandDao().setFavourite(0, (bandForList.getBandName
-                        ()));
                 bandForList.setFavourite(true);
-                FestivalManager.getInstance().getSelectetBandList().add(bandForList);
-
+                AppDatabase.getInstance().bandDao().update(bandForList);
                 holder.mAddToYourBandButton.setVisibility(View.GONE);
             }
         });

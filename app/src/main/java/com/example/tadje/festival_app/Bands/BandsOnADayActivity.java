@@ -22,9 +22,8 @@ public class BandsOnADayActivity extends Activity {
 
     private BandsOnADayViewAdapter uAdapter;
     private RecyclerView mRecyclerView;
-    private List<Band> bandList;
+    private List<Band> allBandsFromFestival;
     TextView day;
-    List<Band> myBandList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +36,13 @@ public class BandsOnADayActivity extends Activity {
         day = findViewById(R.id.textViewForDay);
         createTextViewOfThisDay();
 
-        bandList = FestivalManager.getInstance().getSelectedFestival().getBands();
+        allBandsFromFestival = AppDatabase.getInstance().bandDao().getAll();
 
-        if (bandList != null) {
+        if (allBandsFromFestival != null) {
             mRecyclerView = findViewById(R.id.recyclerViewBands);
             mRecyclerView.setHasFixedSize(true);
 
-            uAdapter = new BandsOnADayViewAdapter(bandList, this);
+            uAdapter = new BandsOnADayViewAdapter(allBandsFromFestival, this);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -65,25 +64,25 @@ public class BandsOnADayActivity extends Activity {
 
         switch (weekday) {
             case 1:
-                day.setText("monday");
+                day.setText(getString(R.string.monday));
                 break;
             case 2:
-                day.setText("tuesday");
+                day.setText(getString(R.string.tuesday));
                 break;
             case 3:
-                day.setText("wendsday");
+                day.setText(getString(R.string.wednesday));
                 break;
             case 4:
-                day.setText("thursday");
+                day.setText(getString(R.string.thursday));
                 break;
             case 5:
-                day.setText("friday");
+                day.setText(getString(R.string.friday));
                 break;
             case 6:
-                day.setText("saturday");
+                day.setText(getString(R.string.saturday));
                 break;
             case 7:
-                day.setText("sunday");
+                day.setText(getString(R.string.sunday));
                 break;
         }
 
