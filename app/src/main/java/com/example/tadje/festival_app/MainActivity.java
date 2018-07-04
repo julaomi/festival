@@ -34,7 +34,8 @@ import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements BandsFragment
-        .OnFragmentInterActionListener, MyBandsFragment.OnFragmentInterActionListener {
+        .OnFragmentInterActionListener, MyBandsFragment.OnFragmentInterActionListener,
+        MapsFragment.OnFragmentInterActionListener {
 
     SharedPreferences mPrefs;
     String[] listOfFiles;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                                 fragment = new BandsFragment();
                                 break;
                             case R.id.Map:
+                                fragment = new MapsFragment();
                                 break;
                             case R.id.Calender:
                                 break;

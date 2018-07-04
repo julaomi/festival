@@ -21,4 +21,8 @@
     <color name="backgroundViolet">#734C80</color>
     <color name="backgroundDialog1">#033e3d</color>
     <color name="backgroundDialog2">#093748</color>
+    <color name="colorMarkerGreen">#80ff80</color>
+    <color name="colorMarkerBlue">#66ccff</color>
+    <color name="colorMarkerRed">#ff6666</color>
+
 </resources>

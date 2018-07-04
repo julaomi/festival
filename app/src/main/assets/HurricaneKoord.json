@@ -1,0 +1,92 @@
+{
+"name":"Hurricane",
+"coordinatesFestival":[
+	{
+	"latFestival":"53.157548",
+	"lngFestival":"9.520142"
+	}
+],
+"stageArea":
+[
+	{
+	"latStageArea":"53.158011",
+	"lngStageArea":"9.519112"
+	},
+	{
+	"latStageArea":"53.161498",
+	"lngStageArea":"9.522277"
+	},
+	{
+	"latStageArea":"53.161131",
+	"lngStageArea":"9.526504"
+	},
+	{
+	"latStageArea":"53.159661",
+	"lngStageArea":"9.524991"
+	},
+	{
+	"latStageArea":"53.159333",
+	"lngStageArea":"9.527072"
+	},
+	{
+	"latStageArea":"53.158536",
+	"lngStageArea":"9.526708"
+	},
+	{
+	"latStageArea":"53.158941",
+	"lngStageArea":"9.524380"
+	},
+	{
+	"latStageArea":"53.157050",
+	"lngStageArea":"9.522384"
+	}
+],
+"coordinatesStage":[
+	{ 
+	"stagename":"white",
+	"latStage":"53.158606",
+	"lngStage":"9.521247"
+	},
+	{ 
+	"stagename":"green",
+	"latStage":"53.161186",
+	"lngStage":"9.522663"
+	},
+	{ 
+	"stagename":"blue",
+	"latStage":"53.160987",
+	"lngStage":"9.525249"
+	},
+	{
+	"stagename":"red",
+	"latStage":"53.159102",
+	"lngStage":"9.526107"
+	}
+],
+"campArea":[
+	{
+	"latCampArea":"53.153040",
+	"lngCampArea":"9.535463"
+	},
+	{
+	"latCampArea":"53.148604",
+	"lngCampArea":"9.528462"
+	},
+	{
+	"latCampArea":"53.14966",
+	"lngCampArea":"9.518213"
+	},
+	{
+	"latCampArea":"53.153625",
+	"lngCampArea":"9.518502"
+	},
+	{
+	"latCampArea":"53.156481",
+	"lngCampArea":"9.508325"
+	},
+	{
+	"latCampArea":"53.158738",
+	"lngCampArea":"9.516055"
+	}
+    ]
+}
