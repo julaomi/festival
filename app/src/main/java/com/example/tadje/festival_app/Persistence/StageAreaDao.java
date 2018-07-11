@@ -34,4 +34,6 @@ public abstract class StageAreaDao {
     @Query("SELECT * FROM stageArea")
      public abstract List<StageArea> getAll();
 
+    @Query("SELECT * FROM stageArea WHERE festivalName IS :festivalName")
+    public abstract List<StageArea> getAllStageAreaWhereFestivalName(String festivalName);
 }

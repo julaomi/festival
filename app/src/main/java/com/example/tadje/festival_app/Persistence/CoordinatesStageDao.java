@@ -35,4 +35,8 @@ public abstract class CoordinatesStageDao {
     @Query("SELECT * FROM coordinatesStage")
     public abstract List<CoordinatesStage> getAll();
 
+    @Query("SELECT * FROM coordinatesStage WHERE festivalName IS :festivalName")
+    public abstract List<CoordinatesStage> getAllCoordinatesStageWhereFestivalName(String
+                                                                                            festivalName);
+
 }

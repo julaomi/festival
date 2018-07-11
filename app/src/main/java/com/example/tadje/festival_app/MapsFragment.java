@@ -107,14 +107,17 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
                 .informationsForCoordinatesReader
                         (selectedFestivalName, this.getContext());
 
-        List<CoordinatesFestival> coordinatesFestivalList = AppDatabase.getInstance()
-                .coordinatesFestivalDao().getAll();
 
         long festivalID = AppDatabase.getInstance().coordinatesDao().getidForCoordinates
                 (selectedFestivalName);
 
-        double festivalLat = coordinatesFestivalList.get((int) festivalID -1).getLatFestival();
-        double festivalLng = coordinatesFestivalList.get((int) festivalID -1).getLngFestival();
+        List<CoordinatesFestival> coordinatesFestivalList = AppDatabase.getInstance()
+                .coordinatesFestivalDao().getAllCoordinatesFestivalWhereFestivalName
+                        (selectedFestivalName);
+
+
+        double festivalLat = coordinatesFestivalList.get((int) festivalID - 1).getLatFestival();
+        double festivalLng = coordinatesFestivalList.get((int) festivalID - 1).getLngFestival();
 
         mMap = googleMap;
         LatLng festival = new LatLng(festivalLat, festivalLng);
@@ -134,15 +137,15 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
                 (selectedFestivalName);
 
         List<CoordinatesStage> coordinatesStageList = AppDatabase.getInstance().coordinatesStageDao()
-                .getAll();
+                .getAllCoordinatesStageWhereFestivalName(selectedFestivalName);
 
 
         for (int i = 0; i < (coordinatesStageList.size()); i++) {
 
-            LatLng markerCoordinates = new LatLng(coordinatesStageList.get(id).getLatStage(),
-                    coordinatesStageList.get(id).getLngStage());
+            LatLng markerCoordinates = new LatLng(coordinatesStageList.get(i).getLatStage(),
+                    coordinatesStageList.get(i).getLngStage());
             mMap.addMarker(new MarkerOptions().position(markerCoordinates)
-                    .title(coordinatesStageList.get(id).getStagename())
+                    .title(coordinatesStageList.get(i).getStagename())
             );
         }
     }
@@ -150,7 +153,7 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
     private void createPolylines() {
 
         List<StageArea> stageAreaList = AppDatabase.getInstance().stageAreaDao()
-                .getAll();
+                .getAllStageAreaWhereFestivalName(selectedFestivalName);
 
         for (int i = 0; i < (stageAreaList.size() - 1); ++i) {
             polylineStage = mMap.addPolyline(new PolylineOptions()
@@ -164,7 +167,8 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
             );
         }
 
-        List<CampArea> campAreaList = AppDatabase.getInstance().campAreaDao().getAll();
+        List<CampArea> campAreaList = AppDatabase.getInstance().campAreaDao()
+                .getAllCampAreaWhereFestivalName(selectedFestivalName);
 
         for (int i = 0; i < (campAreaList.size() - 1); ++i) {
             polylineStage = mMap.addPolyline(new PolylineOptions()

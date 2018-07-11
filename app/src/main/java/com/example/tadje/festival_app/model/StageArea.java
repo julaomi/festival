@@ -16,6 +16,11 @@ public class StageArea {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @SerializedName("festivalName")
+    @Expose
+    @ColumnInfo(name = "festivalName")
+    private String festivalName;
+
     @SerializedName("latStageArea")
     @Expose
     @ColumnInfo(name = "latStageArea")
@@ -49,6 +54,14 @@ public class StageArea {
 
     public void setLngStageArea(double lngStageArea) {
         this.lngStageArea = lngStageArea;
+    }
+
+    public String getFestivalName() {
+        return festivalName;
+    }
+
+    public void setFestivalName(String festivalName) {
+        this.festivalName = festivalName;
     }
 }
 

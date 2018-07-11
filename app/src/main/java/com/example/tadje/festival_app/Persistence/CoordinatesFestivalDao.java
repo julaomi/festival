@@ -34,4 +34,8 @@ public abstract class CoordinatesFestivalDao {
     @Query("SELECT * FROM coordinatesFestival")
     public abstract List<CoordinatesFestival> getAll();
 
+    @Query("SELECT * FROM coordinatesFestival WHERE festivalName IS :festivalName")
+    public abstract List<CoordinatesFestival> getAllCoordinatesFestivalWhereFestivalName(String
+                                                                                            festivalName);
+
 }

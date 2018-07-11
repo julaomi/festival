@@ -16,6 +16,11 @@ public class CoordinatesStage {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @SerializedName("festivalName")
+    @Expose
+    @ColumnInfo(name = "festivalName")
+    private String festivalName;
+
     @SerializedName("stagename")
     @Expose
     @ColumnInfo(name = "stagename")
@@ -61,5 +66,13 @@ public class CoordinatesStage {
 
     public void setLngStage(double lngStage) {
         this.lngStage = lngStage;
+    }
+
+    public String getFestivalName() {
+        return festivalName;
+    }
+
+    public void setFestivalName(String festivalName) {
+        this.festivalName = festivalName;
     }
 }

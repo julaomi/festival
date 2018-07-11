@@ -33,6 +33,9 @@ public abstract class CampAreaDao {
     @Query("SELECT * FROM campArea")
     public abstract List<CampArea> getAll();
 
+    @Query("SELECT * FROM campArea WHERE festivalName IS :festivalName")
+    public abstract List<CampArea> getAllCampAreaWhereFestivalName(String festivalName);
+
 
 
 

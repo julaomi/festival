@@ -55,8 +55,7 @@ public class FestivalJsonReader {
 
         for (int i = 0; i < existFestivalNames.size(); ++i) {
             String existfesivalName = existFestivalNames.get(i);
-            if (existfesivalName.equals(festivalName)) {
-            }else {
+            if (existfesivalName != festivalName) {
                 putInDataBase(festival);
             }
         }
@@ -72,8 +71,9 @@ public class FestivalJsonReader {
     }
 
     private void putInDataBase(Festival festival) {
-        AppDatabase.getInstance().festivalDao().insert(festival);
-        AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
-    }
+
+            AppDatabase.getInstance().festivalDao().insert(festival);
+             AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+        }
 
 }

@@ -16,6 +16,11 @@ public class CampArea {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @SerializedName("festivalName")
+    @Expose
+    @ColumnInfo(name = "festivalName")
+    private String festivalName;
+
     @SerializedName("latCampArea")
     @Expose
     @ColumnInfo(name = "latCampArea")
@@ -48,6 +53,14 @@ public class CampArea {
 
     public void setLngCampArea(double lngCampArea) {
         this.lngCampArea = lngCampArea;
+    }
+
+    public String getFestivalName() {
+        return festivalName;
+    }
+
+    public void setFestivalName(String festivalName) {
+        this.festivalName = festivalName;
     }
 }
 
