@@ -38,5 +38,9 @@ public abstract class CoordinatesDao {
 
     @Query("SELECT * FROM coordinates")
     public abstract List<Coordinates> getAll();
+
+    @Query("SELECT * FROM coordinates WHERE name IS :festivalName")
+    public abstract List<Coordinates> getAllFromName(String festivalName);
+
 }
 

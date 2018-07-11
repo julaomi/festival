@@ -66,5 +66,5 @@ public interface FestivalDao {
     void setSelectedAll(boolean myBoolean);
 
     @Query("SELECT festivalName FROM festival")
-    String getFestivalName();
+    List <String> getFestivalName();
 }

@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tadje on 01.06.2018.
@@ -25,7 +26,7 @@ public class FestivalJsonReader {
         festivalList.clear();
 
 
-      String json = null;
+        String json = null;
         try {
             InputStream inputStream = context.getAssets().open(fileName);
             int size = inputStream.available();
@@ -49,22 +50,30 @@ public class FestivalJsonReader {
 
     private Festival addFestival(Festival festival) {
 
-       String existFestivalName = AppDatabase.getInstance().festivalDao().getFestivalName();
+        List<String> existFestivalNames = AppDatabase.getInstance().festivalDao().getFestivalName();
+        String festivalName = festival.getFestivalName();
 
-       if (existFestivalName != festival.getFestivalName()){
-           AppDatabase.getInstance().festivalDao().insert(festival);
-           AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+        for (int i = 0; i < existFestivalNames.size(); ++i) {
+            String existfesivalName = existFestivalNames.get(i);
+            if (existfesivalName.equals(festivalName)) {
+            }else {
+                putInDataBase(festival);
+            }
+        }
+        if (existFestivalNames.size() == 0){
+            putInDataBase(festival);
+        }
 
-           FestivalManager.getInstance().setSelectedFestival(festival);
-
-           festival.setSelected(true);
-           AppDatabase.getInstance().festivalDao().update(festival);
-       }
-
-
-
+        FestivalManager.getInstance().setSelectedFestival(festival);
+        festival.setSelected(true);
+        AppDatabase.getInstance().festivalDao().update(festival);
 
         return festival;
+    }
+
+    private void putInDataBase(Festival festival) {
+        AppDatabase.getInstance().festivalDao().insert(festival);
+        AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
     }
 
 }

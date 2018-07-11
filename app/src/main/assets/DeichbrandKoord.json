@@ -1,0 +1,96 @@
+{
+"name":"Deichbrand",
+"coordinatesFestival":[
+	{
+	"latFestival":"53.759647",
+	"lngFestival":"8.671417"
+	}
+],
+"stageArea":
+[
+	{
+	"latStageArea":"53.755899",
+	"lngStageArea":"8.673343"
+	},
+	{
+	"latStageArea":"53.756902",
+	"lngStageArea":"8.677226"
+	},
+	{
+	"latStageArea":"53.757716",
+	"lngStageArea":"8.673715"
+	},
+	{
+	"latStageArea":"53.759010",
+	"lngStageArea":"8.673246"
+	},
+	{
+	"latStageArea":"53.759029",
+	"lngStageArea":"8.671204"
+	},
+	{
+	"latStageArea":"53.756284",
+	"lngStageArea":"8.672381"
+	}
+],
+"coordinatesStage":[
+	{ 
+	"stagename":"water",
+	"latStage":"53.756105",
+	"lngStage":"8.673575"
+	},
+	{ 
+	"stagename":"fire",
+	"latStage":"53.756979",
+	"lngStage":"8.676081"
+	},
+	{ 
+	"stagename":"palast",
+	"latStage":"53.758264",
+	"lngStage":"8.672009"
+	}
+],
+"campArea":[
+	{
+	"latCampArea":"53.750483",
+	"lngCampArea":"8.672781"
+	},
+	{
+	"latCampArea":"53.751069",
+	"lngCampArea":"8.668961"
+	},
+	{
+	"latCampArea":"53.751813",
+	"lngCampArea":"8.669298"
+	},
+	{
+	"latCampArea":"53.752022",
+	"lngCampArea":"8.668001"
+	},
+	{
+	"latCampArea":"53.751396",
+	"lngCampArea":"8.667031"
+	},
+	{
+	"latCampArea":"53.752031",
+	"lngCampArea":"8.664055"
+	},
+        {
+	"latCampArea":"53.755465",
+	"lngCampArea":"8.670116"
+	},
+        {
+	"latCampArea":"53.755482",
+	"lngCampArea":"8.671965"
+	},
+        { 
+	"latCampArea":"53.756698",
+	"lngCampArea":"8.677208"
+	},
+        {
+	"latCampArea":"53.754526",
+	"lngCampArea":"8.678372"
+	}
+
+    ]
+}

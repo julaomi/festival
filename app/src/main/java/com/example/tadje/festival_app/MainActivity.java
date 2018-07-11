@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         try {
             listOfFiles = this.getAssets().list("festivals");
 
+
         } catch (IOException e) {
             e.printStackTrace();
             listOfFiles = new String[0];
