@@ -100,7 +100,7 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        selectedFestival = FestivalManager.getInstance().getSelectedFestival();
+        selectedFestival = AppDatabase.getInstance().festivalDao().allFromSelectedFestival();
         selectedFestivalName = selectedFestival.getFestivalName();
 
         new CoordinatesJsonReader()

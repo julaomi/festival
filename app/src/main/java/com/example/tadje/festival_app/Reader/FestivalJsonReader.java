@@ -22,7 +22,6 @@ public class FestivalJsonReader {
 
 
     public ArrayList<Festival> informationsForReader(String fileName, Context context) {
-        FestivalManager.getInstance().getFileName();
         festivalList.clear();
 
 
@@ -59,21 +58,25 @@ public class FestivalJsonReader {
                 putInDataBase(festival);
             }
         }
-        if (existFestivalNames.size() == 0){
+        if (existFestivalNames.size() == 0) {
             putInDataBase(festival);
         }
 
         FestivalManager.getInstance().setSelectedFestival(festival);
         festival.setSelected(true);
-        AppDatabase.getInstance().festivalDao().update(festival);
+        AppDatabase.getInstance().festivalDao().setSelectedFestivalName(true,festivalName);
 
         return festival;
     }
 
     private void putInDataBase(Festival festival) {
 
-            AppDatabase.getInstance().festivalDao().insert(festival);
-             AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
-        }
+        AppDatabase.getInstance().festivalDao().insert(festival);
+        AppDatabase.getInstance().bandDao().insertAll(festival.getBands());
+
+        AppDatabase.getInstance().festivalDao()
+                .setSelectedFromAllWhereNot(false,
+                        festival.getFestivalName());
+    }
 
 }

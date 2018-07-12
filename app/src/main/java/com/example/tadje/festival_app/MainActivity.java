@@ -17,20 +17,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.Reader.FestivalJsonReader;
-import com.example.tadje.festival_app.model.Festival;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements BandsFragment
@@ -41,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     String[] listOfFiles;
     Spinner festivalSpinner;
     String fileName;
+    private IFestivalSelectedCallback festivalSelectedCallback;
 
 
     @Override
@@ -51,16 +43,20 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         mPrefs = this.getApplicationContext().getSharedPreferences("myAppPrefs", 0);
         //Initialization of the database otherwise the app crashes
         AppDatabase.getInstance(this.getApplicationContext());
+        Fragment startingFragment = new InformationsStartFragment();
+        this.festivalSelectedCallback = (IFestivalSelectedCallback) startingFragment;
+        setToFragment(startingFragment);
 
-        setToFragment(new InformationsStartFragment());
 
-        startDialog();
-//        if (this.getFirstRun()) {
-//           this.setRunned();
-//
-//       } else {
-//           fillTextViewWithFestival();
-//       }
+        if (this.getFirstRun()) {
+            this.setRunned();
+            startDialog();
+
+        } else {
+            if (festivalSelectedCallback != null) {
+                festivalSelectedCallback.onFestivalSelected(getApplicationContext());
+            }
+        }
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -90,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                 });
     }
 
+
     private boolean setToFragment(Fragment newFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -116,7 +113,14 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         firstStartDialog.setPositiveButton("GO!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                fillTextViewWithFestival();
+
+
+                new FestivalJsonReader().informationsForReader(fileName, getApplicationContext());
+
+                if (MainActivity.this.festivalSelectedCallback != null) {
+
+                    MainActivity.this.festivalSelectedCallback.onFestivalSelected(getApplicationContext());
+                }
             }
         });
         firstStartDialog.show();
@@ -153,15 +157,6 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
                                                   String[] name = fileName.split("\\.");
 
-                                                  AppDatabase.getInstance().festivalDao()
-                                                          .setSelected(true, (name[0]));
-
-
-                                                  FestivalManager.getInstance();
-                                                  new FestivalJsonReader().informationsForReader
-                                                          (fileName, context);
-
-                                                  fillTextViewWithFestival();
                                               }
 
 
@@ -183,84 +178,6 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         edit.commit();
     }
 
-
-    public void fillTextViewWithFestival() {
-
-        TextView festivalNameView = findViewById(R.id.textViewFestivalName);
-        TextView festivalOrtView = findViewById(R.id.textViewFestivalOrt);
-        TextView festivalDatum = findViewById(R.id.textViewFestivalDatum);
-
-        java.util.Date festivalToDate = null;
-        java.util.Date festivalFromDate = null;
-
-        Festival festivalInformations = FestivalManager.getInstance().getSelectedFestival();
-
-        if (festivalInformations == null) {
-            festivalInformations = AppDatabase.getInstance().festivalDao()
-                    .allFromSelectedFestival();
-
-        }
-
-        String festivalName = festivalInformations.getFestivalName();
-        String festivalLocation = festivalInformations.getFestivalLocation();
-        String festivalFrom = festivalInformations.getFestivalfrom();
-        String festivalTo = festivalInformations.getFestivalto();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        try {
-            festivalFromDate = simpleDateFormat.parse(festivalFrom);
-            festivalToDate = simpleDateFormat.parse(festivalTo);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        daysBetweenDates(festivalFromDate, festivalToDate);
-
-        festivalNameView.setText(festivalName);
-        festivalOrtView.setText(festivalLocation);
-        festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
-
-    }
-
-
-    private void daysBetweenDates(java.util.Date festivalFromDate, java.util.Date festivalToDate) {
-
-        Calendar calendarFrom = new GregorianCalendar(TimeZone.getTimeZone("Germany"));
-        calendarFrom.setLenient(true);
-        calendarFrom.setTime(festivalFromDate);
-        calendarFrom.set(Calendar.HOUR, 0);
-        calendarFrom.set(Calendar.MINUTE, 0);
-        calendarFrom.set(Calendar.SECOND, 0);
-        calendarFrom.set(Calendar.MILLISECOND, 0);
-
-
-        Calendar calendarTo = new GregorianCalendar(TimeZone.getTimeZone("Germany"));
-        calendarTo.setTime(festivalToDate);
-        calendarTo.set(Calendar.HOUR, 0);
-        calendarTo.set(Calendar.MINUTE, 0);
-        calendarTo.set(Calendar.SECOND, 0);
-        calendarTo.set(Calendar.MILLISECOND, 0);
-
-        List<Integer> listOfWeekDays = new ArrayList<>();
-        List<Calendar> listOfDates = new ArrayList<>();
-
-
-        while (calendarFrom.getTimeInMillis() <= calendarTo.getTimeInMillis()) {
-
-            int dayOfWeek = calendarFrom.get(Calendar.DAY_OF_WEEK);
-            listOfWeekDays.add(dayOfWeek);
-
-            Calendar clone = (Calendar) calendarFrom.clone();
-            clone.add(Calendar.DATE, 1);
-            listOfDates.add(clone);
-
-            calendarFrom.add(Calendar.DATE, 1);
-        }
-
-        FestivalManager.getInstance().setListOfWeekdays(listOfWeekDays);
-        FestivalManager.getInstance().setListOfDates(listOfDates);
-    }
 
 }
 

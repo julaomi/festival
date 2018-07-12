@@ -47,19 +47,19 @@
   "coordinatesStage": [
     {
       "festivalName": "Deichbrand",
-      "stagename": "water",
+      "stagename": "water stage",
       "latStage": "53.756105",
       "lngStage": "8.673575"
     },
     {
       "festivalName": "Deichbrand",
-      "stagename": "fire",
+      "stagename": "fire stage",
       "latStage": "53.756979",
       "lngStage": "8.676081"
     },
     {
       "festivalName": "Deichbrand",
-      "stagename": "palast",
+      "stagename": "Palastzelt",
       "latStage": "53.758264",
       "lngStage": "8.672009"
     }

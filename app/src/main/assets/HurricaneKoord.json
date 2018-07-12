@@ -52,25 +52,25 @@
   "coordinatesStage": [
     {
       "festivalName": "Hurricane",
-      "stagename": "white",
+      "stagename": "white stage",
       "latStage": "53.158606",
       "lngStage": "9.521247"
     },
     {
       "festivalName": "Hurricane",
-      "stagename": "green",
+      "stagename": "green stage",
       "latStage": "53.161186",
       "lngStage": "9.522663"
     },
     {
       "festivalName": "Hurricane",
-      "stagename": "blue",
+      "stagename": "blue stage",
       "latStage": "53.160987",
       "lngStage": "9.525249"
     },
     {
       "festivalName": "Hurricane",
-      "stagename": "red",
+      "stagename": "red stage",
       "latStage": "53.159102",
       "lngStage": "9.526107"
     }

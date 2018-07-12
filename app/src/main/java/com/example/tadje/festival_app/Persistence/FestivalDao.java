@@ -46,6 +46,9 @@ public interface FestivalDao {
     @Query("UPDATE festival SET selected = (:myBoolean) WHERE festivalName IN (:festivalName)")
     int setSelected(boolean myBoolean, String festivalName);
 
+    @Query("UPDATE festival SET selected = (:myBoolean) WHERE NOT festivalName IN (:festivalName)")
+    int setSelectedFromAllWhereNot(boolean myBoolean, String festivalName);
+
     @Insert
     void insert(Festival festival);
 
@@ -62,8 +65,8 @@ public interface FestivalDao {
     @Query("DELETE FROM festival")
     void deleteTable();
 
-    @Query( "UPDATE festival SET selected = (:myBoolean)")
-    void setSelectedAll(boolean myBoolean);
+    @Query( "UPDATE festival SET selected = (:myBoolean) WHERE festivalName IN (:festivalName)")
+    void setSelectedFestivalName(boolean myBoolean, String festivalName);
 
     @Query("SELECT festivalName FROM festival")
     List <String> getFestivalName();
