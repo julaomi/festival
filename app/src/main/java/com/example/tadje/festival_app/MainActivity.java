@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,11 +19,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.Reader.FestivalJsonReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements BandsFragment
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     Spinner festivalSpinner;
     String fileName;
     private IFestivalSelectedCallback festivalSelectedCallback;
+    List<String> listOfNames = new ArrayList<>();
 
 
     @Override
@@ -46,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         Fragment startingFragment = new InformationsStartFragment();
         this.festivalSelectedCallback = (IFestivalSelectedCallback) startingFragment;
         setToFragment(startingFragment);
+
+        getSupportActionBar().setBackgroundDrawable(
+                new ColorDrawable(Color.parseColor("#734C80")));
 
 
         if (this.getFirstRun()) {
@@ -76,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                                 fragment = new MapsFragment();
                                 break;
                             case R.id.Calender:
+                                fragment = new InformationsStartFragment();
                                 break;
                             case R.id.Camera:
-                                break;
+                                fragment = new InformationsStartFragment();
+                               break;
                         }
 
                         return setToFragment(fragment);
@@ -130,10 +141,13 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
 
     private void populateFileSpinner(View view, Spinner spinner) {
         // List of Existing Files for the Spinner with Adapter
-
         try {
             listOfFiles = this.getAssets().list("festivals");
 
+            for (int i = 0; i < listOfFiles.length; i++){
+                String [] fileNameSplit = listOfFiles[i].split("\\.");
+                listOfNames.add(fileNameSplit[0]);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         }
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getApplicationContext(),
-                android.R.layout.simple_spinner_item, listOfFiles);
+                android.R.layout.simple_spinner_item, listOfNames);
 
         final Context context = this;
 
@@ -150,12 +164,12 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //wenn etwas ausgewählt wurde
+                                                  ((TextView)parent.getChildAt(0)).setTextColor(Color
+                                                          .WHITE);
 
                                                   fileName = adapter.getItem(position).toString();
 
                                                   FestivalManager.getInstance().setFileName(fileName);
-
-                                                  String[] name = fileName.split("\\.");
 
                                               }
 

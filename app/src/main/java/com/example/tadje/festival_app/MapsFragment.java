@@ -1,14 +1,8 @@
 package com.example.tadje.festival_app;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +14,13 @@ import com.example.tadje.festival_app.model.CoordinatesFestival;
 import com.example.tadje.festival_app.model.CoordinatesStage;
 import com.example.tadje.festival_app.model.Festival;
 import com.example.tadje.festival_app.model.StageArea;
+import com.example.tadje.festival_app.model.Tent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -32,14 +28,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 /**
  * Created by tadje on 02.07.2018.
  */
 
 
-public class MapsFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback {
+public class MapsFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback,
+        ILocationListener {
 
     private MapView viewMap;
     private GoogleMap mMap;
@@ -47,19 +42,13 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
     private Polyline polylineCamp;
     FloatingActionButton myTentButton;
     FloatingActionButton friendsTentButton;
-    LocationManager locationManager;
-    boolean isGPSEnabled = false;
-    boolean isNetworkEnabled = false;
-    private boolean canGetLocation = false;
-    private Location location;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    // The minimum time beetwen updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 5;
     private double latitude;
     private double longitude;
     String selectedFestivalName;
     Festival selectedFestival;
+    String tentName;
 
+    private boolean LocationAvailable = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -72,14 +61,22 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
         MapsInitializer.initialize(this.getActivity());
         viewMap.getMapAsync(this);
 
+        FestivalLocationManager.getInstance().locationInitialize(getContext());
+
+        List<Tent> tentList = AppDatabase.getInstance().tentDao().getAll();
+
+        if (tentList!=null){
+            createMarkerForFriendsTent();
+            createMarkerForMyTent();
+        }
+
         myTentButton = view.findViewById(R.id.buttonForTent);
         myTentButton.setOnClickListener((new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                locationInitialize();
                 createMarkerForMyTent();
+
             }
         }
         ));
@@ -89,7 +86,7 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
 
             @Override
             public void onClick(View v) {
-
+                createMarkerForFriendsTent();
             }
         }
         ));
@@ -148,6 +145,26 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
                     .title(coordinatesStageList.get(i).getStagename())
             );
         }
+        LatLng demofriendsTent = new LatLng(53.149815, 9.528061);
+        mMap.addMarker(new MarkerOptions()
+                .position(demofriendsTent)
+                .title(getString(R.string.friends))
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+        LatLng demofriendsTent2 = new LatLng(53.156852, 9.509998);
+        mMap.addMarker(new MarkerOptions()
+                .position(demofriendsTent2)
+                .title(getString(R.string.friends))
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+        LatLng demoMyTent = new LatLng(53.154374, 9.523909);
+        mMap.addMarker(new MarkerOptions()
+                .position(demoMyTent)
+                .title(getString(R.string.mytent))
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
     }
 
     private void createPolylines() {
@@ -171,7 +188,7 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
                 .getAllCampAreaWhereFestivalName(selectedFestivalName);
 
         for (int i = 0; i < (campAreaList.size() - 1); ++i) {
-            polylineStage = mMap.addPolyline(new PolylineOptions()
+            polylineCamp = mMap.addPolyline(new PolylineOptions()
                     .add(
                             new LatLng(campAreaList.get(i).getLatCampArea(), campAreaList.get(i).getLngCampArea()),
                             new LatLng(campAreaList.get((i + 1)).getLatCampArea(), campAreaList
@@ -184,74 +201,76 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
 
     }
 
-    private Location locationInitialize() {
-
-        locationManager = (LocationManager) getContext().getSystemService
-                (LOCATION_SERVICE);
-
-        isGPSEnabled = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        isNetworkEnabled = locationManager
-                .isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
-
-        checkForPermissions();
-
-        return location;
-    }
-
-    private void checkForPermissions() {
-        if (isGPSEnabled || isNetworkEnabled) {
-
-            this.canGetLocation = true;
-
-
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission
-                    .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getContext(), Manifest.permission
-                            .ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                locationManager.requestLocationUpdates(LocationManager
-                                .GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES,
-                        (LocationListener) this);
-                locationManager.requestLocationUpdates(LocationManager
-                                .NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES,
-                        (LocationListener) this);
-
-                lastLocationFromProvider();
-            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private void lastLocationFromProvider() {
-        if (locationManager != null) {
-            location = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
-
-            if (location == null) {
-                location = locationManager.getLastKnownLocation(android.location.LocationManager
-                        .NETWORK_PROVIDER);
-            }
-
-            initializeLocationVariablen(location);
-        }
-    }
-
-    // TODO Koordinaten müssen noch in Datenbank !
-    private void initializeLocationVariablen(Location location) {
-        if (location != null) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-
-        }
-    }
 
     private void createMarkerForMyTent() {
-        LatLng myTent = new LatLng(latitude, longitude);
 
-        mMap.addMarker(new MarkerOptions()
-                .position(myTent)
-                .title("Mein Zelt"));
+        latitude = FestivalManager.getInstance().getLatitude();
+        longitude = FestivalManager.getInstance().getLongitude();
+        tentName = getString(R.string.mytent);
+
+        Tent myTent = new Tent(selectedFestivalName, tentName, latitude, longitude);
+        AppDatabase.getInstance().tentDao().insert(myTent);
+
+
+        List<Tent> myTentList = AppDatabase.getInstance().tentDao()
+                .getAllWhereFestivalNameAndTentFrom
+                        (selectedFestivalName, tentName);
+
+        for (int i = 0; i < myTentList.size(); i++) {
+            latitude = myTentList.get(i).getLatTent();
+            longitude = myTentList.get(i).getLngTent();
+
+            LatLng myTentCoord = new LatLng(latitude, longitude);
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(myTentCoord)
+                    .title(tentName)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+
+        }
+
+    }
+
+    private void createMarkerForFriendsTent() {
+
+        latitude = FestivalManager.getInstance().getLatitude();
+        longitude = FestivalManager.getInstance().getLongitude();
+        tentName = getString(R.string.friends);
+
+        Tent friendsTent = new Tent(selectedFestivalName, tentName, latitude, longitude);
+        AppDatabase.getInstance().tentDao().insert(friendsTent);
+
+        List<Tent> friendsTentList = AppDatabase.getInstance().tentDao()
+                .getAllWhereFestivalNameAndTentFrom
+                        (selectedFestivalName, tentName);
+
+        for (int i = 0; i < friendsTentList.size(); i++) {
+            latitude = friendsTentList.get(i).getLatTent();
+            longitude = friendsTentList.get(i).getLngTent();
+
+            LatLng myTentCoord = new LatLng(latitude, longitude);
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(myTentCoord)
+                    .title(tentName)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        }
+
+
+
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
+        FestivalManager.getInstance().setLatitude(latitude);
+        FestivalManager.getInstance().setLongitude(longitude);
 
     }
 
@@ -265,4 +284,21 @@ public class MapsFragment extends android.support.v4.app.Fragment implements OnM
             mMap.clear();
         }
     }
+
+    //Registration in the listener List
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewMap.onResume();
+        FestivalLocationManager.getInstance().registerLocationChangedListener(this);
+
+    }
+
+    //unregistration in the listener List
+    @Override
+    public void onPause() {
+        super.onPause();
+        FestivalLocationManager.getInstance().unregisterLocationChangedListener(this);
+    }
+
 }

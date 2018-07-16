@@ -14,12 +14,13 @@ import com.example.tadje.festival_app.model.CoordinatesStage;
 import com.example.tadje.festival_app.model.Festival;
 import com.example.tadje.festival_app.model.MyTypeConverter;
 import com.example.tadje.festival_app.model.StageArea;
+import com.example.tadje.festival_app.model.Tent;
 
 /**
  * Created by tadje on 31.05.2018.
  */
 @Database(entities = {Festival.class, Band.class, Coordinates.class, CoordinatesFestival.class,
-        CoordinatesStage.class, StageArea.class, CampArea.class},
+        CoordinatesStage.class, StageArea.class, CampArea.class , Tent.class},
         version = 1)
 @TypeConverters({MyTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -51,5 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CoordinatesStageDao coordinatesStageDao();
     public abstract CampAreaDao campAreaDao();
     public  abstract StageAreaDao stageAreaDao();
+    public abstract TentDao tentDao();
+
 
 }

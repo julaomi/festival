@@ -20,7 +20,7 @@ public class CoordinatesJsonReader {
     public Coordinates informationsForCoordinatesReader(String fileName, Context context) {
 
         String json = null;
-        String fileNameForCoordinations= fileName + "Koord.json";
+        String fileNameForCoordinations = fileName + "Koord.json";
 
         try {
             InputStream inputStream = context.getAssets().open(fileNameForCoordinations);
@@ -40,15 +40,15 @@ public class CoordinatesJsonReader {
 
         String existFestivalName = AppDatabase.getInstance().coordinatesDao().getCoorName();
 
-        if (existFestivalName != coordinates.getCoordFestivalName()){
+        if (existFestivalName != coordinates.getCoordFestivalName()) {
 
-        AppDatabase.getInstance().coordinatesDao().insert(coordinates);
+            AppDatabase.getInstance().coordinatesDao().insert(coordinates);
 
-        AppDatabase.getInstance().coordinatesFestivalDao().insertAll(coordinates.getCoordinatesFestival());
-        AppDatabase.getInstance().coordinatesStageDao().insertAll(coordinates.getCoordinatesStage());
-        AppDatabase.getInstance().campAreaDao().insertAll(coordinates.getCampArea());
-        AppDatabase.getInstance().stageAreaDao().insertAll(coordinates.getStageArea());
-    }
+            AppDatabase.getInstance().coordinatesFestivalDao().insertAll(coordinates.getCoordinatesFestival());
+            AppDatabase.getInstance().coordinatesStageDao().insertAll(coordinates.getCoordinatesStage());
+            AppDatabase.getInstance().campAreaDao().insertAll(coordinates.getCampArea());
+            AppDatabase.getInstance().stageAreaDao().insertAll(coordinates.getStageArea());
+        }
 
         return coordinates;
 

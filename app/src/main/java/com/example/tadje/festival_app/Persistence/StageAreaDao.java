@@ -3,7 +3,6 @@ package com.example.tadje.festival_app.Persistence;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.example.tadje.festival_app.model.StageArea;
 
@@ -14,9 +13,6 @@ import java.util.List;
  */
 @Dao
 public abstract class StageAreaDao {
-
-    @Update
-    public abstract void update(StageArea stageArea);
 
     @Insert
     abstract long[] insertAllRaw(List<StageArea> stageArea);
@@ -32,7 +28,7 @@ public abstract class StageAreaDao {
     public abstract List<StageArea> getAllFromID(int id);
 
     @Query("SELECT * FROM stageArea")
-     public abstract List<StageArea> getAll();
+    public abstract List<StageArea> getAll();
 
     @Query("SELECT * FROM stageArea WHERE festivalName IS :festivalName")
     public abstract List<StageArea> getAllStageAreaWhereFestivalName(String festivalName);

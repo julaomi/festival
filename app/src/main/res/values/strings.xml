@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Festival-App</string>
-    <string name="festivalname">Festival Name</string>
-    <string name="festivalort">Festival Ort</string>
-    <string name="festivaldatum">Festival Datum</string>
+    <string name="festivalname">Festival name</string>
+    <string name="festivalort">Festival place</string>
+    <string name="festivaldatum">Festival date</string>
     <string name="delete">delete</string>
     <string name="cancel">cancel</string>
     <string name="deleteBand">delete selected band</string>
@@ -14,5 +14,9 @@
     <string name="friday">friday</string>
     <string name="saturday">saturday</string>
     <string name="sunday">sunday</string>
+    <string name="date">dd.MM.yyyy</string>
+    <string name="friends">friends</string>
+    <string name="mytent">my tent</string>
+    <string name="info">Welcome to the festival app! Please choose a festival to go to!</string>
 
 </resources>

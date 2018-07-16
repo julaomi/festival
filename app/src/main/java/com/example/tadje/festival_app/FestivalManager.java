@@ -19,6 +19,9 @@ public class FestivalManager {
     private List<Integer> listOfWeekdays;
     private int festivalDayPosition;
     private List<Calendar> listOfDates;
+    private double latitude;
+    private double longitude;
+
 
     private FestivalManager() {
 
@@ -75,5 +78,21 @@ public class FestivalManager {
 
     public void setSelectedFestival(Festival selectedFestival) {
         this.selectedFestival = selectedFestival;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

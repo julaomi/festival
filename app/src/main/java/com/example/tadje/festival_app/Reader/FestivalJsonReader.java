@@ -27,7 +27,7 @@ public class FestivalJsonReader {
 
         String json = null;
         try {
-            InputStream inputStream = context.getAssets().open(fileName);
+            InputStream inputStream = context.getAssets().open(fileName + ".json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -64,7 +64,7 @@ public class FestivalJsonReader {
 
         FestivalManager.getInstance().setSelectedFestival(festival);
         festival.setSelected(true);
-        AppDatabase.getInstance().festivalDao().setSelectedFestivalName(true,festivalName);
+        AppDatabase.getInstance().festivalDao().setSelectedFestivalName(true, festivalName);
 
         return festival;
     }

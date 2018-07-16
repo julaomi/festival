@@ -64,28 +64,28 @@ public class InformationsStartFragment extends Fragment implements IFestivalSele
         Festival festivalInformations = AppDatabase.getInstance().festivalDao()
                 .allFromSelectedFestival();
 
+            String festivalName = festivalInformations.getFestivalName();
+            String festivalLocation = festivalInformations.getFestivalLocation();
+            String festivalFrom = festivalInformations.getFestivalfrom();
+            String festivalTo = festivalInformations.getFestivalto();
 
-        String festivalName = festivalInformations.getFestivalName();
-        String festivalLocation = festivalInformations.getFestivalLocation();
-        String festivalFrom = festivalInformations.getFestivalfrom();
-        String festivalTo = festivalInformations.getFestivalto();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            try {
+                festivalFromDate = simpleDateFormat.parse(festivalFrom);
+                festivalToDate = simpleDateFormat.parse(festivalTo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            festivalFromDate = simpleDateFormat.parse(festivalFrom);
-            festivalToDate = simpleDateFormat.parse(festivalTo);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            daysBetweenDates(festivalFromDate, festivalToDate);
+
+            festivalNameView.setText(festivalName);
+            festivalOrtView.setText(festivalLocation);
+            festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
+
         }
 
-        daysBetweenDates(festivalFromDate, festivalToDate);
-
-        festivalNameView.setText(festivalName);
-        festivalOrtView.setText(festivalLocation);
-        festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
-
-    }
 
     private void daysBetweenDates(java.util.Date festivalFromDate, java.util.Date festivalToDate) {
 

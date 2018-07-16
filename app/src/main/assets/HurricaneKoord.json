@@ -47,6 +47,11 @@
       "festivalName": "Hurricane",
       "latStageArea": "53.157050",
       "lngStageArea": "9.522384"
+    },
+    {
+      "festivalName": "Hurricane",
+      "latStageArea": "53.158011",
+      "lngStageArea": "9.519112"
     }
   ],
   "coordinatesStage": [
@@ -105,6 +110,11 @@
       "festivalName": "Hurricane",
       "latCampArea": "53.158738",
       "lngCampArea": "9.516055"
+    },
+    {
+      "festivalName": "Hurricane",
+      "latCampArea": "53.153040",
+      "lngCampArea": "9.535463"
     }
   ]
 }

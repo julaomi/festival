@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Festival-App</string>
+    <string name="festivalname">Festival Name</string>
+    <string name="festivalort">Festival Ort</string>
+    <string name="festivaldatum">Festival Datum</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Zurücl</string>
+    <string name="deleteBand">Lösche die ausgewählte Band</string>
+    <string name="reallyDelete">Willst du diese Band wirklich löschen?</string>
+    <string name="monday">Montag</string>
+    <string name="tuesday">Dienstag</string>
+    <string name="wednesday">Mittwoch</string>
+    <string name="thursday">Donnerstag</string>
+    <string name="friday">Freitag</string>
+    <string name="saturday">Samstag</string>
+    <string name="sunday">Sonntag</string>
+    <string name="date">TT.MM.JJJJ</string>
+    <string name="friends">Freunde</string>
+    <string name="mytent">Mein Zelt</string>
+    <string name="info">Herzlich Wilkommen bei der Festival-App! Bitte wähle ein Festival aus zu
+        dem du fährst!</string>
+
+
+</resources>
