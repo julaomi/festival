@@ -64,6 +64,7 @@ public class InformationsStartFragment extends Fragment implements IFestivalSele
         Festival festivalInformations = AppDatabase.getInstance().festivalDao()
                 .allFromSelectedFestival();
 
+        if (festivalInformations != null) {
             String festivalName = festivalInformations.getFestivalName();
             String festivalLocation = festivalInformations.getFestivalLocation();
             String festivalFrom = festivalInformations.getFestivalfrom();
@@ -85,6 +86,7 @@ public class InformationsStartFragment extends Fragment implements IFestivalSele
             festivalDatum.setText(festivalFrom + "\n - \n" + festivalTo);
 
         }
+    }
 
 
     private void daysBetweenDates(java.util.Date festivalFromDate, java.util.Date festivalToDate) {
