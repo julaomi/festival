@@ -23,9 +23,14 @@ import android.widget.TextView;
 
 import com.example.tadje.festival_app.Persistence.AppDatabase;
 import com.example.tadje.festival_app.Reader.FestivalJsonReader;
+import com.example.tadje.festival_app.model.Festival;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
     String fileName;
     private IFestivalSelectedCallback festivalSelectedCallback;
     List<String> listOfNames = new ArrayList<>();
+    TextView countdownView;
 
 
     @Override
@@ -60,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         if (this.getFirstRun()) {
             this.setRunned();
             startDialog();
+            countdown();
 
         } else {
             if (festivalSelectedCallback != null) {
                 festivalSelectedCallback.onFestivalSelected(getApplicationContext());
+                countdown();
             }
         }
 
@@ -77,24 +85,60 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
                         switch (item.getItemId()) {
                             case R.id.yourBands:
                                 fragment = new MyBandsFragment();
+                                countdownView.setVisibility(View.INVISIBLE);
                                 break;
                             case R.id.bands:
                                 fragment = new BandsFragment();
+                                countdownView.setVisibility(View.INVISIBLE);
                                 break;
                             case R.id.Map:
                                 fragment = new MapsFragment();
+                                countdownView.setVisibility(View.INVISIBLE);
                                 break;
                             case R.id.Calender:
                                 fragment = new InformationsStartFragment();
+                                countdownView.setVisibility(View.VISIBLE);
                                 break;
                             case R.id.Camera:
                                 fragment = new InformationsStartFragment();
-                               break;
+                                countdownView.setVisibility(View.VISIBLE);
+                                break;
                         }
 
                         return setToFragment(fragment);
                     }
                 });
+    }
+
+    private void countdown() {
+
+        countdownView = findViewById(R.id.textViewCountdown);
+
+        Festival festival = AppDatabase.getInstance().festivalDao().allFromSelectedFestival();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date event_date = null;
+
+        if (festival != null) {
+            try {
+                event_date = dateFormat.parse("20.07.2018");
+                //dateFormat.parse(festival.getFestivalfrom());
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+            Date current_date = Calendar.getInstance().getTime();
+            if (!current_date.after(event_date)) {
+                long diff = event_date.getTime() - current_date.getTime();
+
+                long Days = diff / (24 * 60 * 60 * 1000);
+                long Hours = diff / (60 * 60 * 1000) % 24;
+                long Minutes = diff / (60 * 1000) % 60;
+
+                countdownView.setText(Days + " Tage " + Hours + " Stunden " + Minutes + " Minuten");
+            }
+
+
+        }
     }
 
 
@@ -144,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         try {
             listOfFiles = this.getAssets().list("festivals");
 
-            for (int i = 0; i < listOfFiles.length; i++){
-                String [] fileNameSplit = listOfFiles[i].split("\\.");
+            for (int i = 0; i < listOfFiles.length; i++) {
+                String[] fileNameSplit = listOfFiles[i].split("\\.");
                 listOfNames.add(fileNameSplit[0]);
             }
 
@@ -164,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements BandsFragment
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //wenn etwas ausgewählt wurde
-                                                  ((TextView)parent.getChildAt(0)).setTextColor(Color
+                                                  ((TextView) parent.getChildAt(0)).setTextColor(Color
                                                           .WHITE);
 
                                                   fileName = adapter.getItem(position).toString();

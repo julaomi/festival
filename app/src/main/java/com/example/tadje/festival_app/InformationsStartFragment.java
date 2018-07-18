@@ -30,6 +30,7 @@ public class InformationsStartFragment extends Fragment implements IFestivalSele
 
     private View fragmentView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class InformationsStartFragment extends Fragment implements IFestivalSele
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
 
             daysBetweenDates(festivalFromDate, festivalToDate);
 

@@ -14,6 +14,19 @@
         layout="@layout/bottom_navigation_view"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewCountdown"
+        android:layout_width="0dp"
+        android:layout_height="27dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="Countdown"
+        android:textColor="@color/backgroundViolet"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
